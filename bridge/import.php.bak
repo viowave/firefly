@@ -1,0 +1,128 @@
+<?php
+require 'includes/db.php';
+
+$csvFile = 'Book2.csv'; // Change this to the actual file path
+
+if (!file_exists($csvFile)) {
+    die("CSV file not found.");
+}
+
+$handle = fopen($csvFile, 'r');
+if ($handle === false) {
+    die("Error opening the CSV file.");
+}
+
+// Skip the header row
+fgetcsv($handle);
+
+while (($row = fgetcsv($handle)) !== false) {
+    list($source, $name, $type, $cost, $description, $fight, $tech, $talk, $moral, $wanted,
+        $companion, $lawman, $merc, $grifter, $hill_folk, $mechanic, $medic, $mudder, $pilot, $soldier,
+        $corp, $synthetic, $tong, $fake_id, $fancy_duds, $hacking_rig, $transport, $shuttle, $firearm, 
+        $sniper_rifle, $explosives, $space_bazaar, $persephone, $silverhold, $regina, $osiris, $meridian, 
+        $beaumonde, $yctts, $count) = $row;
+
+    // Ensure numeric values default to 0 if empty
+    $cost = is_numeric($cost) ? $cost : 0;
+    $fight = is_numeric($fight) ? $fight : 0;
+    $tech = is_numeric($tech) ? $tech : 0;
+    $talk = is_numeric($talk) ? $talk : 0;
+    // Determine leader status
+    $leader = (strtolower($type) === 'leader') ? 1 : 0;
+    $moral = ($moral === 'X') ? 1 : 0;
+    $wanted = ($wanted === 'X') ? 1 : 0;
+
+    // Get or insert the source
+    $stmt = $pdo->prepare("SELECT id FROM sources WHERE name = ?");
+    $stmt->execute([$source]);
+    $sourceId = $stmt->fetchColumn();
+    if (!$sourceId) {
+        $stmt = $pdo->prepare("INSERT INTO sources (name) VALUES (?)");
+        $stmt->execute([$source]);
+        $sourceId = $pdo->lastInsertId();
+    }
+
+
+    $planetColumns = ['Space Bazaar' => $space_bazaar, 'Persephone' => $persephone, 'Silverhold' => $silverhold,
+                      'Regina' => $regina, 'Osiris' => $osiris, 'Meridian' => $meridian, 'Beaumonde' => $beaumonde];
+    
+    // Assign a planet (ensure only one is selected per crew member)
+    $planetId = NULL; // Default to NULL if no planet is assigned
+
+    foreach ($planetColumns as $planet => $value) {
+        if (trim($value) === '1') {
+            // Check if planet exists, insert if missing
+            $stmt = $pdo->prepare("SELECT id FROM planets WHERE name = ?");
+            $stmt->execute([$planet]);
+            $planetId = $stmt->fetchColumn();
+            
+            if (!$planetId) {
+                $stmt = $pdo->prepare("INSERT INTO planets (name) VALUES (?)");
+                $stmt->execute([$planet]);
+                $planetId = $pdo->lastInsertId(); // Get the new planet ID
+            }
+            break; // Assign the first found planet
+        }
+    }
+    
+    // Default fallback if no planet is found
+    if (!$planetId) {
+        $planetId = NULL;
+    }
+
+    // Insert crew member
+    $stmt = $pdo->prepare("INSERT INTO crew (name, description, fight_points, tech_points, talk_points, moral, wanted, leader, cost, source_id, planet_id) 
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->execute([$name, $description, $fight, $tech, $talk, $moral, $wanted, $leader, $cost, $sourceId, $planetId]);
+    $crewId = $pdo->lastInsertId();
+    $roles = ['Companion' => $companion, 'Lawman' => $lawman, 'Merc' => $merc, 'Grifter' => $grifter, 'Hill Folk' => $hill_folk, 
+    'Mechanic' => $mechanic, 'Medic' => $medic, 'Mudder' => $mudder, 'Pilot' => $pilot, 'Soldier' => $soldier];
+
+    foreach ($roles as $role => $value) {
+        if (trim($value) === 'X') {
+            // Check if role exists, insert if missing
+            $stmt = $pdo->prepare("SELECT id FROM roles WHERE name = ?");
+            $stmt->execute([$role]);
+            $roleId = $stmt->fetchColumn();
+            
+            if (!$roleId) {
+                $stmt = $pdo->prepare("INSERT INTO roles (name) VALUES (?)");
+                $stmt->execute([$role]);
+                $roleId = $pdo->lastInsertId();
+            }
+
+            // Assign role to crew
+            $stmt = $pdo->prepare("INSERT INTO crew_roles (crew_id, role_id) VALUES (?, ?)");
+            $stmt->execute([$crewId, $roleId]);
+        }
+    }
+
+
+    $keywords = ['Fake ID' => $fake_id, 'Fancy Duds' => $fancy_duds, 'Hacking Rig' => $hacking_rig, 'Transport' => $transport,
+    'Shuttle' => $shuttle, 'Firearm' => $firearm, 'Sniper Rifle' => $sniper_rifle, 'Explosives' => $explosives];
+
+    foreach ($keywords as $keyword => $value) {
+        if (trim($value) === 'X') {
+            // Check if keyword exists, insert if missing
+            $stmt = $pdo->prepare("SELECT id FROM keywords WHERE name = ?");
+            $stmt->execute([$keyword]);
+            $keywordId = $stmt->fetchColumn();
+
+            if (!$keywordId) {
+                $stmt = $pdo->prepare("INSERT INTO keywords (name) VALUES (?)");
+                $stmt->execute([$keyword]);
+                $keywordId = $pdo->lastInsertId();
+            }
+
+            // Assign keyword to crew
+            $stmt = $pdo->prepare("INSERT INTO crew_keywords (crew_id, keyword_id) VALUES (?, ?)");
+            $stmt->execute([$crewId, $keywordId]);
+        }
+    }
+}
+
+    
+
+fclose($handle);
+echo "✅ Import complete!";
+?>

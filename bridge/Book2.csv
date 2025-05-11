@@ -1,0 +1,138 @@
+﻿Source,Name,Type,Cost,Description,Fight,Tech,Talk,MORAL,WANTED,Companion,Lawman,Merc,Grifter,Hill Folk,Mechanic,Medic,Mudder,Pilot,Soldier,Corp,Synthetic,Tong,Fake ID,Fancy Duds,Hacking Rig,Transport,Shuttle,Firearm,Sniper Rifle,Explosives,Space Bazaar,Persephone,Silverhold,Regina,Osiris,Meridian,Beaumonde,YCTtS,Count
+Base Game: Firefly: The Game,Bester,Crew,100,"""Genius"" Mechanic: On [TECHING] Tests, ""Thrillin' Heroics"" bonus dice do not apply.",,1,,,,,,,,,X,,,,,,,,,,,,,,,,,,,1,,,,,1
+Base Game: Firefly: The Game,Billy,Crew,200,Salvage Pro: +1 Cargo from Salvage Ops.,,2,,,X,,,,,,X,,,,,,,,,,,,,,,,,1,,,,,,,1
+Base Game: Firefly: The Game,Bree,Crew,200,Black Market Ties: May sell Parts to any Solid Contact for $300.,,2,,,X,,,,,,X,,,,,,,,,,,,,,,,,1,,,,,,,1
+Base Game: Firefly: The Game,Bridgit,Crew,300,"Deceptive: If Yolonda or Saffron are hired by anyone, Remove Bridgit from Play.",,1,2,,,X,,,X,,,,,,,,,,,,,,,,,,,,,1,,,,,1
+Base Game: Firefly: The Game,Crow,Crew,200,Knife Fighter: +[FIGHT] When Carrying a Knife. May not Carry a Firearm.,2,,,,X,,,X,,,,,,,,,,,,,,,,,,,,,,1,,,,,1
+Base Game: Firefly: The Game,Doralee,Crew,100,Angry Mob: +[FIGHT] When you have at least 3 Hill Folk in your crew.,,,,X,,,,,,X,,X,,,,,,,,,,,,,,,,,1,,,,,,1
+Base Game: Firefly: The Game,Emma,Crew,200,Morale Booster: You may use an Action on your turn to remove Disgruntled from a Crew other than Emma.,,,2,X,,,,,X,,,,,,,,,,,,,,,,,,,1,,,,,,,1
+Base Game: Firefly: The Game,Fendris,Crew,100,"Henchman #2: If your Leader becomes Disgruntled, Disgruntle Fendris instead.",1,,,,,,,,,,,,,,X,,,,,,,,,,,,,,1,,,,,,1
+Base Game: Firefly: The Game,Grange Brothers,Crew,200,Two of a Kind: May Carry 2 Gear. Must pass 2 Alliance Wanted Crew rolls to dodge capture.,2,,,,X,,,X,,,,,,,,,,,,,,,,,,,,,,1,,,,,1
+Base Game: Firefly: The Game,Helen,Crew,200,Morale Booster: You may use an Action on your turn to remove Disgruntled from a Crew other than Helen.,1,,1,X,X,,,,X,,,,,,,,,,,,,,,,,,1,,,,,,,,1
+Base Game: Firefly: The Game,Inara,Crew,300,Ambassador: May re-roll NEGOTIATING] Tests.,,,3,X,,X,,,,,,,,,,,,,,X,,,,,,,,,,,1,,,,1
+Base Game: Firefly: The Game,Interrogator,Crew,100,Medic Check: Roll when a Crew is Killed: 1-4: Crew is still Killed. 5-6: Return Crew to Ship.,,,1,,X,,,,,,,X,,,,,,,,,,,,,,,,,,,1,,,,1
+Base Game: Firefly: The Game,Jayne,Crew,300,Public Relations: May Carry 3 Gear.,2,,,,X,,,X,,,,,,,,,,,,,,,,,,,,,1,,,,,,1
+Base Game: Firefly: The Game,Jesse,Crew,200,Opportunist: +1 Contraband from Salvage Ops.,1,1,,,X,,,,,,,,,X,,,,,,,,,,,,,1,,,,,,,,1
+Base Game: Firefly: The Game,Kaylee,Crew,300,Natural Know How: May re-roll [TECHING] Tests.,,3,,X,,,,,,,X,,,,,,,,,,,,,,,,,,,1,,,,,1
+Base Game: Firefly: The Game,Lucy,Crew,200,Morale Booster: You may use an Action on your turn to remove Disgruntled from a Crew other than Lucy.,,,2,X,,,,,X,,,,,,,,,,,,,,,,,,,,,1,,,,,1
+Base Game: Firefly: The Game,Lund,Crew,200,"Cheap Shot: May use Gear in ""Kosherized"" [FIGHTING] Tests.",2,,,,,,,,,,,,,,X,,,,,,,,,,,,,,,1,,,,,1
+Base Game: Firefly: The Game,River Tam,Crew,0,"Gifted: Before each Test, roll: 1-2: Return to Ship 3: [FIGHT][FIGHT] 4: [TECH][TECH] 5: [NEGOTIATE][NEGOTIATE] 6: 3 of any chosen Skill.",,,,X,X,,,,,,,,,,,,,,,,,,,,,,,1,,,,,,,1
+Base Game: Firefly: The Game,Saffron,Crew,300,"Deceptive: If Bridgit or Yolonda are hired by anyone, Remove Saffron from Play.",,1,2,,,X,,,X,,,,,,,,,,,,,,,,,,,,1,,,,,,1
+Base Game: Firefly: The Game,Shepherd Book,Crew,0,"Secret Past: If Working Immoral Job, Shepherd Book must stay Onboard Ship.",1,,1,X,,,,,,,,,,,X,,,,X,,,,,,,,,1,,,,,,,1
+Base Game: Firefly: The Game,Simon Tam,Crew,200,"""I am very smart"": +2 to Medic Checks. +2 to River Tam's ""Gifted"" rolls.",,2,,X,X,,,,,,,X,,,,,,,,X,,,,,,,,1,,,,,,,1
+Base Game: Firefly: The Game,Skunk,Crew,200,Firebug: +[NEGOTIATE] When Carrying Explosives.,1,,,,,,,,,,,,,,X,,,,,,,,,,,,,,1,,,,,,1
+Base Game: Firefly: The Game,Stark,Crew,100,Angry Mob: +[FIGHT] When you have at least 3 Hill Folk in your crew.,1,,,X,,,,,,X,,,,,,,,,,,,,,,,,,,1,,,,,,1
+Base Game: Firefly: The Game,Stitch,Crew,300,"Cantankerous: Once per job, may treat a [NEGOTIATING] as a [FIGHTING] Test.",2,,,,X,,,X,,,,,,,,,,,,,,,,,,,,,1,,,,,,1
+Base Game: Firefly: The Game,The Patron,Crew,200,Angry Mob: +[FIGHT] When you have at least 3 Hill Folk in your crew.,1,,1,X,,,,,,X,,,,,,,,,,,,,,,,,,,1,,,,,,1
+Base Game: Firefly: The Game,Tracey,Crew,100,"Unlucky: Whenever a Crew is Killed, Tracey must be Killed first.",1,,1,,X,,,,X,,,,,,,,,,,,,,,,,,1,,,,,,,,1
+Base Game: Firefly: The Game,Two-Fry,Crew,200,"Dead-Eye: When Carrying a Sniper Rifle on Jobs, draw 1 fewer Misbehave Card, down to a minimum of 1.",1,,,,X,,,X,,,,,,,,,,,,,,,,,,,,,,1,,,,,1
+Base Game: Firefly: The Game,Wash,Crew,200,Hard Burn: +1 to Full Burn Range.,,1,1,X,,,,,,,,,,X,,,,,,,,,,,,,1,,,,,,,,1
+Base Game: Firefly: The Game,Yolonda,Crew,300,"Deceptive: If Saffron or Bridgit are hired by anyone, Remove Yolanda from Play.",,1,2,,,X,,,X,,,,,,,,,,,,,,,,,,,,,,1,,,,1
+Base Game: Firefly: The Game,Zoe,Crew,300,Dust Devil: May re-roll [FIGHTING] Tests.,2,,,X,X,,,,,,,,,,X,,,,,,,,,,,,,,1,,,,,,1
+Base Game: Firefly: The Game,Burgess,Leader,0,"Taker: When you complete a Shipping Job, Load 1 Cargo.",1,1,1,,,,,,,,,,,,,,,,,X,,,,,,,,,,,,,,1,1
+Base Game: Firefly: The Game,Corbin,Leader,0,Chop Shop: You may Buy Drive Cores and Ship Upgrades at half price.,,2,1,,,,,,,,X,,,,,,,,,,,,,,,,,,,,,,,1,1
+Base Game: Firefly: The Game,Malcolm,Leader,0,"Brown Coat: When you complete a Crime Job, take $500.",2,,1,X,,,,,,,,,,X,X,,,,,,,,,,,,,,,,,,,1,1
+Base Game: Firefly: The Game,Marco,Leader,0,"Gun Runner: You may Buy Gear with the ""Explosives"" or ""Firearm"" Keywords at half price.",2,1,,,,,,,,,,,,,,,,,,,,X,,,,,,,,,,,,1,1
+Base Game: Firefly: The Game,Monty,Leader,0,"Smuggler Extraordinaire: When you complete a Smuggling Job, take $500.",2,1,,X,,,,,,,X,,,,X,,,,,,,,,,,,,,,,,,,1,1
+Base Game: Firefly: The Game,Nandi,Leader,0,Heart of Gold: May Hire Crew at no cost.,1,,2,X,,X,,,,,,,,,,,,,,,,,,,,,,,,,,,,1,1
+Base Game: Firefly: The Game,Womack,Leader,0,Cold and Heartless: When you complete an Immoral Job take $500.,2,,1,,,,,,,,,,,,X,,,,,,,,,,,,,,,,,,,1,1
+Expansion: Breakin' Atmo,Accountant,Crew,300,"Cooking the Books: Whenever you receive a Goal token, take $500.",,1,1,,,,,,X,,,,,,,,,,,,,,,,,,,1,,,,,,,1
+Expansion: Breakin' Atmo,Elder Gommen,Crew,0,"Devout: If Working Immoral Job, Elder Gommen must stay Onboard Ship.",,,2,X,,,,,,X,,,,,,,,,,,,,,,,,,,1,,,,,,1
+Expansion: Breakin' Atmo,Head Goon,Crew,300,Goon Squad: +[NEGOTIATE][NEGOTIATE] When you have at least 3 Mercs in Crew.,2,,,,,,,X,,,,,,,,,,,,,,,,,,,,,1,,,,,,1
+Expansion: Breakin' Atmo,The Fixer,Crew,300,Shady Connections,,1,1,,X,,,,X,,,,,,,,,,X,,,,,,,,,1,,,,,,,1
+Expansion: Breakin' Atmo,The Specialist,Crew,300,Wet Work: May not Carry Gear.,1,1,,,X,,,,,,,,,,X,,,,,,,,,X,X,,,,,1,,,,,1
+Expansion: Pirates & Bounty Hunters,Agent McGinnis,Crew,0,"Fed: Whenever you lose a [SHOWDOWN], Warrant Issued to Rival. Bounty Bonus +$500. Will not Work Illegal Jobs.",,1,1,,,,X,,,,,,,,,,,,,,,,,,,,,,,,1,,,,1
+Expansion: Pirates & Bounty Hunters,Chari,Crew,200,"Turncoat: In a [SHOWDOWN], you may force a Rival to re-roll.",,,2,,,,,,X,,,,,,,,,,,,,,,,,,,,1,,,,,,1
+Expansion: Pirates & Bounty Hunters,Dalin,Crew,200,"Intel Broker: Once per Work Action, you may pay $200 to discard and re-draw a Misbehave Card.",,1,1,,X,,,,,,,,,,,,,,,,,,,,,,1,,,,,,,,1
+Expansion: Pirates & Bounty Hunters,Deputy,Crew,0,Posse: +[FIGHT] in [SHOWDOWN]. Bounty Bonus: +$300. Will not work Illegal Jobs.,,,1,X,,,X,,,,,,,,,,,,,,,,,,,,,,,1,,,,,1
+Expansion: Pirates & Bounty Hunters,Dobson ,Crew,0,"Mole: In Alliance Space, you may move Alliance Cruiser to your Sector as a Fly Action. Bounty Bonus +$500. Will not work Illegal Jobs.",1,1,,,,,X,,,,,,,,,,,,,,,,,,,,,1,,,,,,,1
+Expansion: Pirates & Bounty Hunters,Fed Marshal,Crew,0,Posse: +[FIGHT] in [SHOWDOWN]. Bounty Bonus: +$300. Will not work Illegal Jobs.,1,,,,,,X,,,,,,,,,,,,,,,,,,,,,,1,,,,,,1
+Expansion: Pirates & Bounty Hunters,Meadows,Crew,0,"Hero Worship: Any time a Crew is Killed, Apprehended, or Seized by the Alliance, you may Kill Meadows instead.",,,,X,,,,,,,,,X,,,,,,,,,,,,,,,,1,,,,,,1
+Expansion: Pirates & Bounty Hunters,Sheriff Bourne,Crew,0,Jurisdiction: +[FIGHT][FIGHT] while in Border Space. Bounty Bonus: +$500. Will not work Illegal Jobs.,,,2,X,,,X,,,,,,,,,,,,,,,,,,,,,,,1,,,,,1
+Expansion: Pirates & Bounty Hunters,The Guardian,Crew,300,Security Pro: May re-roll [SHOWDOWN] Tests.,1,1,,,,,,,,,,X,,,X,,,,,,,,,,,,,,,,1,,,,1
+Expansion: Pirates & Bounty Hunters,"""Sash""",Leader,0,"Pirate: When you complete a Piracy Job, steal $500 from the targeted Rival.",,1,2,,,,,,,,,,,,,,,,,,X,,,,,,,,,,,,,1,1
+Expansion: Pirates & Bounty Hunters,Jubal Early,Leader,0,Bounty Hunter: +[FIGHT][FIGHT] When Attacking in [SHOWDOWN]. May Carry 2 Gear.,1,1,1,,,,,,,,,,,X,,,,,,,,,,,,,,,,,,,,1,1
+Expansion: Still Flying,Blondie,Crew,300,"Deceptive: If Deceptive Crew are hired by anyone, Remove Blondie from Play.",,1,2,,,X,,,X,,,,,,,,,,,,,,,,,,1,,,,,,,,1
+Expansion: Still Flying,Bridgit (replacement),Crew,300,"Deceptive: If Deceptive Crew are hired by anyone, Remove Bridgit from Play.",,1,2,,,X,,,X,,,,,,,,,,,,,,,,,,,,,1,,,,,1
+Expansion: Still Flying,Canine Culinarian,Crew,200,"Live Like Real People: When you pass the Dinosaur, you may remove Disgruntled from a Crew.",,,1,,X,,,,,,,,X,,,,,,,,,,,,,,,1,,,,,,,1
+Expansion: Still Flying,Elizabeth,Crew,300,"Deceptive: If Deceptive Crew are hired by anyone, Remove Elizabeth from Play.",,1,2,,,X,,,X,,,,,,,,,,,,,,,,,,,,,,,,1,,1
+Expansion: Still Flying,Good Dogs Cook,Crew,200,"Live Like Real People: When you pass the Dinosaur, you may remove Disgruntled from a Crew.",,,1,X,,,,,,X,,,,,,,,,,,,,,,,,,,1,,,,,,1
+Expansion: Still Flying,Haulers,Crew,200,"Many Hands, Light Work: During Salvage Ops, re-roll an Test result of 1.",1,,,,X,,,,,,,,X,,,,,,,,,,,,,,,,,1,,,,,1
+Expansion: Still Flying,Haulers,Crew,200,"Many Hands, Light Work: During Salvage Ops, re-roll an Test result of 1.",1,,,X,,,,,,X,,,,,,,,,,,,,,,,,,,1,,,,,,1
+Expansion: Still Flying,Princess,Crew,300,"Deceptive: If Deceptive Crew are hired by anyone, Remove Princess from Play.",,1,2,,,X,,,X,,,,,,,,,,,,,,,,,,,,,,,1,,,1
+Expansion: Still Flying,Red,Crew,300,"On the Double: When you load Goods for a Job, you may Evade.",1,1,,,X,,,,,,,,X,,X,,,,,,,,,,,,1,,,,,,,,1
+Expansion: Still Flying,Saffron (replacement),Crew,300,"Deceptive: If Deceptive Crew are hired by anyone, Remove Saffron from Play.",,1,2,,,X,,,X,,,,,,,,,,,,,,,,,,,,1,,,,,,1
+Expansion: Still Flying,Yolonda (replacement),Crew,300,"Deceptive: If Deceptive Crew are hired by anyone, Remove Yolonda from Play.",,1,2,,,X,,,X,,,,,,,,,,,,,,,,,,,,,,1,,,,1
+Promo: 10th Anniversary,Banning,Crew,200,+[NEGOTIATE][NEGOTIATE] when attacking in SHOWDOWN.,,,1,,,,,,,,,,,,,,,,,X,,,,,,,,,,,,1,,,1
+Promo: 10th Anniversary,Belinda,Crew,100,"Broker: Whenever you sell Cargo to a Contact, you may sell it as either Cargo or Contraband.",,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1,,,1
+Promo: 10th Anniversary,Cabott,Crew,200,Standards: +[NEGOTIATE] when you have no Mudders or Hill Folk in your Crew.,,,1,,,,,,,,,,,,,,,,,X,,,,,,,,,,,,,1,,1
+Promo: 10th Anniversary,Gabriel Tam,Crew,0,"Alliance Connections: When you complete a Legal Job, take $300. Will not work Illegal Jobs.",,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1,,1
+Promo: 10th Anniversary,Regan Tam,Crew,0,"Alliance Connections: When you complete a Legal Job, take $300. Will not work Illegal Jobs.",,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1,,1
+Promo: 10th Anniversary,Bolles,Leader,0,"The Pair You Have: If you Proceed past two Misbehave Cards of the same suit in a row while Working a Job, take $500.",,2,1,X,,,,,,,,,,X,,,,,,,,,,,,X,,,,,,,,1,1
+Promo: 10th Anniversary,Cap'n Jayne,Leader,0,The Hero of Canton: Mudders in your Crew do not become Disgruntled if they are not paid their Cut of successful Jobs. May Carry 2 Gear.,3,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1,1
+Promo: 10th Anniversary,Haymer,Leader,0,"Collector: When you complete a Caper, take $500. You may ignore the effects of ""Tweaked One"" besides reshuffling the Capers Deck.",1,2,,,,,,,,,,,,,,,,,,,,X,X,,,,,,,,,,,1,1
+Promo: 10th Anniversary,Petaline,Leader,0,Mama Bear: Grifters in your Crew do not become Disgruntled if they are not paid their Cut of successful Jobs. +[FIGHT][FIGHT] when Defending in SHOWDOWN.,1,1,1,X,,,,,X,,,,,,,,,,,,,,,,,,,,,,,,,1,1
+Promo: 10th Anniversary,The Councilor,Leader,0,"Pull Some Strings: At the start of your turn, you may take 1 Gear from any discard pile. Return it at the end of your turn.",,1,2,X,,,,,,,,,,,,,,,,X,,X,,,,,,,,,,,,1,1
+Promo: Promo Pack,Jayne,Crew,300,"Public Relations: May Carry 3 Gear. * Big Damn Heroes: When you Proceed while Misbehaving, take $100.",2,,,,X,,,X,,,,,,,,,,,,,,,,,,,,,1,,,,,,1
+Promo: Promo Pack,Kaylee,Crew,300,"Natural Know How: May re-roll [TECHING] Tests. * Big Damn Heroes: When you Proceed while Misbehaving, take $100.",,3,,X,,,,,,,X,,,,,,,,,,,,,,,,,,,1,,,,,1
+Promo: Promo Pack,Wash,Crew,200,"Hard Burn: +1 to Full Burn Range. * Big Damn Heroes: When you Proceed while Misbehaving, take $100.",,1,1,X,,,,,,,,,,X,,,,,,,,,,,,,1,,,,,,,,1
+Promo: Promo Pack,Zoe,Crew,300,"Dust Devil: May re-roll [FIGHTING] Tests. * Big Damn Heroes: When you Proceed while Misbehaving, take $100.",2,,,X,X,,,,,,,,,,X,,,,,,,,,,,,,,1,,,,,,1
+Promo: Promo Pack,Malcolm,Leader,500,"Brown Coat: When you complete a Crime Job, take $500. * Big Damn Heroes: When you Proceed while Misbehaving, take $100.",2,,1,X,,,,,,,,,,X,X,,,,,,,,,,,,,,,,,,,1,1
+Rim Expansion: Blue Sun,Cortland,Crew,300,Laws Are For the Poor: May pay Bribes before any [NEGOTIATING] Test. Bribes may not be used in [SHOWDOWNS].,1,1,,,,,,,,,X,,,,X,,,,,,,,,,,,,,,,,1,,,1
+Rim Expansion: Blue Sun,Head Goon,Crew,300,Goon Squad: +[NEGOTIATE][NEGOTIATE] When you have at least 3 Mercs in Crew.,2,,,,,,,X,,,,,,,,,,,,,,,,,,,,,,,,1,,,1
+Rim Expansion: Blue Sun,Sheydra,Crew,300,"Composure: Once per job, may treat a [FIGHTING] as a [NEGOTIATING] Test.",,1,2,X,,X,,,,,,,,,,,,,,X,,,,,,,,,,,,1,,,1
+Rim Expansion: Blue Sun,The Middleman,Crew,200,"Facilitator: Whenever you sell Contraband to a Contact, take an extra $100 per Contraband sold.",1,,1,,X,,,,X,,,,,,,,,,,,,,,,,,,,,,,1,,,1
+Rim Expansion: Blue Sun,The Salesman,Crew,200,"Wholesaler: As a Buy Action, discard to purchase a Ship Upgrade or Drive Core from any discard pile, at half price. This may be done from any location.",,,1,,,,,,X,,,,,,,,,,,,,,,,,,,,,,,1,,,1
+Rim Expansion: Blue Sun,Atherton,Leader,0,Black Mark: May not hire Crew with the Companion Profession.,1,,2,,,,,,,,,,,,,,,,X,X,,,,,,,,,,,,,,1,1
+Rim Expansion: Blue Sun,Murphy,Leader,0,"Trade Baron: Whenever you sell Cargo or Contraband to a Contact, take an extra $100 each.",1,2,,X,,,,,,,X,X,,,,,,,,,,,,,,,,,,,,,,1,1
+Rim Expansion: Kalidasa,Barkeep,Crew,200,Good Times: Giving your Crew Shore Leave at Supply Planets is free.,1,,1,,X,,,,,,,,X,,,,,,,,,,,,,,,,1,,,,,,1
+Rim Expansion: Kalidasa,Barkeep,Crew,200,Good Times: Giving your Crew Shore Leave at Supply Planets is free.,1,,1,,X,,,,X,,,,,,,,,,,,,,,,,,,,,,,,1,,1
+Rim Expansion: Kalidasa,Busker,Crew,200,"Work the Crowd: When you Make-Work, take an extra $100.",,,1,,X,,,,X,,,,X,,,,,,,,,,,,,,,,,,,,1,,1
+Rim Expansion: Kalidasa,Fan Dancer,Crew,300,Mesmerize: Discard to ignore a Warrant Issued.,,,2,,,,,,X,,,,,,,,,,,,,,,,,,,,,,,,1,,1
+Rim Expansion: Kalidasa,Fess,Crew,300,"Phone Home: From any location, you may use a Deal Action to Deal with Higgins. Accept or discard the Jobs normally.",,2,,,,,,,,,,,,,,,,,,,X,,,,,,,,,,,,1,,1
+Rim Expansion: Kalidasa,Foreman,Crew,200,Mudder Manager:+[FIGHT][FIGHT] When you have at least 3 Mudders in your Crew.,1,1,,,,,,,,,X,,X,,,,,,,,,,,,,,,,,,,,1,,1
+Rim Expansion: Kalidasa,Grimey,Crew,0,"Errand Boy: When you discard a Gear Card, roll a dice. If you roll a 6, keep the Gear Card. Otherwise, discard it normally.",,,1,,,,,,,,,,X,,,,,,,,,,,,,,,,,,,,1,,1
+Rim Expansion: Kalidasa,Holder,Crew,200,"Shanghai: When you Make-Work, you may also take a Fugitive Token.",1,1,,,X,,,,,,,,,X,,,,,,,,,,,,,,,,,,,1,,1
+Rim Expansion: Kalidasa,Roberta,Crew,300,Make Nice: You May Discard Roberta instead of losing Solid Rep with a Contact.,1,,2,,,X,,,,,,,,,,,,,X,,,,,,,,,,,,,,1,,1
+Rim Expansion: Kalidasa,Wright,Leader,0,"Dirty Slaver: Whenever you deliver Fugitives, you may take an extra $100 per Fugitive. Ths counts as Immoral.",1,1,1,,,,,,X,,,,,,,,,,,,,,,,,,,,,,,,,1,1
+Ship Pack: Jetwash,Zoe,Leader,0,Loyalty: Soldiers in your Crew do not become Disgruntled if they are not paid their Cut of successful Jobs. May Carry 2 Gear.,3,,,X,,,,,,,,,,,X,,,,,,,,,,,,,,,,,,,1,1
+Base Game: Firefly: The Game,Hill Folk,Crew,0,Angry Mob: +[FIGHT] When you have at least 3 Hill Folk in your crew.,,,,X,,,,,,X,,,,,,,,,,,,,,,,,,,1,,,,,,1
+Base Game: Firefly: The Game,Hill Folk,Crew,0,Angry Mob: +[FIGHT] When you have at least 3 Hill Folk in your crew.,,,,X,,,,,,X,,,,,,,,,,,,,,,,,,,1,,,,,,1
+Expansion: Breakin' Atmo,Helmsman,Crew,200,Alliance Training: Counts as Solid with Harken.,,1,,X,,,,,,,,,,X,,,,,,,,,,,,,,,,,1,,,,1
+Expansion: Breakin' Atmo,Helmsman,Crew,200,Alliance Training: Counts as Solid with Harken.,,1,,X,,,,,,,,,,X,,,,,,,,,,,,,,,,,1,,,,1
+Expansion: Breakin' Atmo,Merchant,Crew,200,"Shrewd Trader: Whenever you sell Cargo to a Contact, take an extra $100 per Cargo.",,1,1,,,,,,,,,,,,,,,,,,,,,,,,1,,,,,,,,1
+Expansion: Breakin' Atmo,Merchant,Crew,200,"Shrewd Trader: Whenever you sell Cargo to a Contact, take an extra $100 per Cargo.",,1,1,,,,,,,,,,,,,,,,,,,,,,,,1,,,,,,,,1
+Rim Expansion: Blue Sun,Gun Hand,Crew,100,"Expendable: When Killed, discard instead of Removing from Play.",1,,,,,,,X,,,,,,,,,,,,,,,,,,,,,,,,1,,,1
+Rim Expansion: Blue Sun,Gun Hand,Crew,100,"Expendable: When Killed, discard instead of Removing from Play.",1,,,,,,,X,,,,,,,,,,,,,,,,,,,,,,,,1,,,1
+Base Game: Firefly: The Game,Scrapper,Crew,200,Dirty Leech: +2 Fuel from Salvage Ops.,,1,,,,,,,,,,,,X,,,,,,,,,,,,,1,,,,,,,,1
+Base Game: Firefly: The Game,Scrapper,Crew,200,Dirty Leech: +2 Fuel from Salvage Ops.,,1,,,,,,,,,,,,X,,,,,,,,,,,,,1,,,,,,,,1
+Base Game: Firefly: The Game,Scrapper,Crew,200,Dirty Leech: +2 Fuel from Salvage Ops.,,1,,,,,,,,,,,,X,,,,,,,,,,,,,1,,,,,,,,1
+Base Game: Firefly: The Game,Scrapper,Crew,200,Low Life Vulture: +1 Part from Salvage Ops.,,1,,,,,,,,,X,,,,,,,,,,,,,,,,,1,,,,,,,1
+Base Game: Firefly: The Game,Scrapper,Crew,200,Low Life Vulture: +1 Part from Salvage Ops.,,1,,,,,,,,,X,,,,,,,,,,,,,,,,,1,,,,,,,1
+Base Game: Firefly: The Game,Scrapper,Crew,200,Low Life Vulture: +1 Part from Salvage Ops.,,1,,,,,,,,,X,,,,,,,,,,,,,,,,,1,,,,,,,1
+Base Game: Firefly: The Game,Enforcer,Crew,200,Intimidating: +[NEGOTIATE] When Carrying a Firearm.,1,,,,,,,X,,,,,,,,,,,,,,,,,,,1,,,,,,,,1
+Base Game: Firefly: The Game,Enforcer,Crew,200,Intimidating: +[NEGOTIATE] When Carrying a Firearm.,1,,,,,,,X,,,,,,,,,,,,,,,,,,,1,,,,,,,,1
+Base Game: Firefly: The Game,Enforcer,Crew,200,Intimidating: +[NEGOTIATE] When Carrying a Firearm.,1,,,,,,,X,,,,,,,,,,,,,,,,,,,,1,,,,,,,1
+Base Game: Firefly: The Game,Enforcer,Crew,200,Intimidating: +[NEGOTIATE] When Carrying a Firearm.,1,,,,,,,X,,,,,,,,,,,,,,,,,,,,1,,,,,,,1
+Base Game: Firefly: The Game,Med Staff,Crew,200,Medic Check: Roll when a Crew is Killed: 1-4: Crew is still Killed. 5-6: Return Crew to Ship.,,1,,X,,,,,,,,X,,,,,,,,,,,,,,,,,,,1,,,,1
+Base Game: Firefly: The Game,Med Staff,Crew,200,Medic Check: Roll when a Crew is Killed: 1-4: Crew is still Killed. 5-6: Return Crew to Ship.,,1,,X,,,,,,,,X,,,,,,,,,,,,,,,,,,,1,,,,1
+Base Game: Firefly: The Game,Med Staff,Crew,200,Medic Check: Roll when a Crew is Killed: 1-4: Crew is still Killed. 5-6: Return Crew to Ship.,,1,,X,,,,,,,,X,,,,,,,,,,,,,,,,,,,1,,,,1
+Base Game: Firefly: The Game,Med Staff,Crew,200,Medic Check: Roll when a Crew is Killed: 1-4: Crew is still Killed. 5-6: Return Crew to Ship.,,1,,X,,,,,,,,X,,,,,,,,,,,,,,,,,,,1,,,,1
+Expansion: Pirates & Bounty Hunters,Bandit,Crew,200,"Bird-Doggin': When you complete a Piracy Job, steal $200 from the targeted Rival.",2,,,,X,,,X,,,,,,,,,,,,,,,,,,,,,1,,,,,,1
+Expansion: Pirates & Bounty Hunters,Bandit,Crew,200,"Bird-Doggin': When you complete a Piracy Job, steal $200 from the targeted Rival.",2,,,,X,,,X,,,,,,,,,,,,,,,,,,,,,1,,,,,,1
+Expansion: Pirates & Bounty Hunters,Bandit,Crew,200,"Bird-Doggin': When you complete a Piracy Job, steal $200 from the targeted Rival.",2,,,,X,,,X,,,,,,,,,,,,,,,,,,,,,,1,,,,,1
+Expansion: Pirates & Bounty Hunters,Bandit,Crew,200,"Bird-Doggin': When you complete a Piracy Job, steal $200 from the targeted Rival.",2,,,,X,,,X,,,,,,,,,,,,,,,,,,,,,,1,,,,,1
+Rim Expansion: Kalidasa,Mudder,Crew,100,"Indentured: Remove from Play at Harvest, Red Sun to take $500. This counts as Immoral.",,1,,,X,,,,,,,,X,,,,,,,,,,,,,,,1,,,,,,,1
+Rim Expansion: Kalidasa,Mudder,Crew,100,"Indentured: Remove from Play at Harvest, Red Sun to take $500. This counts as Immoral.",,1,,,X,,,,,,,,X,,,,,,,,,,,,,,,1,,,,,,,1
+Rim Expansion: Kalidasa,Mudder,Crew,100,"Indentured: Remove from Play at Harvest, Red Sun to take $500. This counts as Immoral.",,1,,,X,,,,,,,,X,,,,,,,,,,,,,,,,1,,,,,,1
+Rim Expansion: Kalidasa,Mudder,Crew,100,"Indentured: Remove from Play at Harvest, Red Sun to take $500. This counts as Immoral.",,1,,,X,,,,,,,,X,,,,,,,,,,,,,,,,1,,,,,,1
+Rim Expansion: Kalidasa,Mudder,Crew,100,"Indentured: Remove from Play at Harvest, Red Sun to take $500. This counts as Immoral.",,1,,,X,,,,,,,,X,,,,,,,,,,,,,,,,,1,,,,,1
+Rim Expansion: Kalidasa,Mudder,Crew,100,"Indentured: Remove from Play at Harvest, Red Sun to take $500. This counts as Immoral.",,1,,,X,,,,,,,,X,,,,,,,,,,,,,,,,,1,,,,,1
+Base Game: Firefly: The Game,Gun Hand,Crew,100,"Expendable: When Killed, discard instead of Removing from Play.",1,,,,,,,X,,,,,,,,,,,,,,,,,,,1,,,,,,,,1
+Base Game: Firefly: The Game,Gun Hand,Crew,100,"Expendable: When Killed, discard instead of Removing from Play.",1,,,,,,,X,,,,,,,,,,,,,,,,,,,1,,,,,,,,1
+Base Game: Firefly: The Game,Gun Hand,Crew,100,"Expendable: When Killed, discard instead of Removing from Play.",1,,,,,,,X,,,,,,,,,,,,,,,,,,,1,,,,,,,,1
+Base Game: Firefly: The Game,Gun Hand,Crew,100,"Expendable: When Killed, discard instead of Removing from Play.",1,,,,,,,X,,,,,,,,,,,,,,,,,,,1,,,,,,,,1
+Base Game: Firefly: The Game,Gun Hand,Crew,100,"Expendable: When Killed, discard instead of Removing from Play.",1,,,,,,,X,,,,,,,,,,,,,,,,,,,,1,,,,,,,1
+Base Game: Firefly: The Game,Gun Hand,Crew,100,"Expendable: When Killed, discard instead of Removing from Play.",1,,,,,,,X,,,,,,,,,,,,,,,,,,,,1,,,,,,,1
+Base Game: Firefly: The Game,Gun Hand,Crew,100,"Expendable: When Killed, discard instead of Removing from Play.",1,,,,,,,X,,,,,,,,,,,,,,,,,,,,,,1,,,,,1
+Base Game: Firefly: The Game,Gun Hand,Crew,100,"Expendable: When Killed, discard instead of Removing from Play.",1,,,,,,,X,,,,,,,,,,,,,,,,,,,,,,1,,,,,1

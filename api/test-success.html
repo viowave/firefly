@@ -1,0 +1,14 @@
+RewriteEngine On
+
+# Ensure mod_rewrite only applies if the request is not a real file or directory
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Route /api/crew/ to /api/crew/index.php
+RewriteRule ^crew/?$ crew/index.php [L]
+
+# Route /api/crew/{id} to /api/crew/show.php?id={id}
+RewriteRule ^crew/([0-9]+)/?$ crew/show.php?id=$1 [L]
+
+# Route /api/roles/ to /api/roles/index.php
+RewriteRule ^roles/?$ roles/index.php [L]
