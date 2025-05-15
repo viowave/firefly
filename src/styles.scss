@@ -1,174 +1,363 @@
+// ===================
+// Variables
+// ===================
+
+$color-bg: #0E2A30;
+$color-text: #c09317;
+$color-button-bg: #e0e0e0;
+$color-hover: #d0d0d0;
+$color-selected-bg: #f36262;
+$color-note: #777;
+
+// ===================
+// Base Styles
+// ===================
+
 body {
-    font-family: sans-serif;
+  font-family: sans-serif;
+  background-color: $color-bg;
+  color: $color-text;
+  display: flex;
+  justify-content: center;
 }
 
+.wrapper {
+  width: 400px;
+  padding-bottom: 50px;
+}
+
+.resultsWrapper {
+  max-width: 1440px;
+  padding-bottom: 50px;
+  @media (min-width: 700px) {
+    padding: 0 30px 50px;
+  }
+  @media (min-width: 1024px) {
+    padding: 0 50px 50px;
+  }
+
+
+}
+
+// ===================
+// Shared Button Styles
+// ===================
+
+%button-base {
+  padding: 12px 24px;
+  background-color: $color-button-bg;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 20px;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+
+  &:hover {
+    background-color: $color-hover;
+  }
+}
+
+// ===================
+// Form Elements
+// ===================
+
 label {
-    display: block;
-    margin-bottom: 5px;
+  display: block;
+  margin-bottom: 20px;
+  font-size: 24px;
 }
 
 input[type="number"],
 input[type="text"],
-select,
+select {
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+// ===================
+// Button Groups
+// ===================
+
 .role-button-group,
 .source-button-group,
 .number-button-group {
-    width: 200px;
-    padding: 5px;
-    margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
-.role-button-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 10px;
-
-    .role-button {
-        padding: 12px 24px;
-        background-color: #e0e0e0;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 16px;
-        transition: background-color 0.3s ease;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        text-align: center;
-        min-width: 100px;
-
-        &.selected {
-            background-color: #5cb85c;
-            color: white;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        &:hover {
-            background-color: #d0d0d0;
-        }
-    }
+.role-button {
+  @extend %button-base;
+  min-width: 100px;
 }
 
-.source-button-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 10px;
-
-    .source-button {
-        padding: 12px 24px;
-        background-color: #e0e0e0;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 16px;
-        transition: background-color 0.3s ease;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        text-align: center;
-        min-width: 150px;
-
-        &.selected {
-            background-color: #5cb85c;
-            color: white;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        &:hover {
-            background-color: #d0d0d0;
-        }
-    }
+.source-button {
+  @extend %button-base;
+  width: 100%;
 }
 
-#selectAllSources {
-    margin-right: 10px;
+.number-button {
+  @extend %button-base;
+  margin-right: 5px;
 }
 
 .select-all-button {
-    padding: 12px 24px;
-    background-color: #e0e0e0;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    margin-bottom: 10px;
-    width: 100%;
-
-    &.selected {
-        background-color: #5cb85c;
-        color: white;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    &:hover {
-        background-color: #d0d0d0;
-    }
+  @extend %button-base;
+  width: 100%;
+  margin-bottom: 5px;
 }
 
 .leader-toggle-button {
-    padding: 12px 24px;
-    background-color: #e0e0e0;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    min-width: 150px;
-    margin-bottom: 10px;
-
-    &.selected {
-        background-color: #5cb85c;
-        color: white;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    &:hover {
-        background-color: #d0d0d0;
-    }
+  @extend %button-base;
+  min-width: 150px;
+  margin: 20px 0 10px 0;
+  width: 100%;
 }
 
-.number-button-group {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 10px;
-
-    .number-button {
-        padding: 12px 24px;
-        background-color: #e0e0e0;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 16px;
-        transition: background-color 0.3s ease;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        text-align: center;
-        min-width: 50px;
-
-        &.selected {
-            background-color: #5cb85c;
-            color: white;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        &:hover {
-            background-color: #d0d0d0;
-        }
-    }
+.submit {
+  padding-top: 15px;
+  button[type="submit"] {
+    @extend %button-base;
+    background-color: $color-text;
+    width: 100%;
+    padding: 20px 0;
+  }
 }
 
-button[type="submit"] {
-    padding: 10px 20px;
-    background-color: #5cb85c;
-    color: white;
-    border: none;
-    cursor: pointer;
+// ===================
+// Layout Helpers
+// ===================
+
+#playerCountButtons,
+#crewNeededButtons {
+  display: flex;
+  justify-content: space-between;
 }
+
+#requiredRoles,
+#targetSources {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 5px;
+}
+
+// ===================
+// Other
+// ===================
 
 .note {
-    font-size: 0.8em;
-    color: #777;
-    margin-top: 5px;
+  font-size: 0.8em;
+  color: $color-note;
+  margin-top: 5px;
+}
+
+.papyrus-font {
+  font-family: 'Papyrus', cursive;
+  font-size: 45px;
+}
+
+.selected {
+  background-color: $color-selected-bg !important;
+  color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+button {
+  @extend %button-base;
+}
+
+.player-name-input-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+  
+    label {
+      white-space: nowrap;
+      margin-bottom: 10px;
+    }
+  
+    input {
+      flex: 1;
+      border-radius: 8px;
+      padding: 8px;
+    }
+}
+
+#draftLeaderContainer {
+    margin-bottom: 15px;
+}
+
+.team-title {
+  // Add styling for the team title if needed
+}
+
+.fallback-note {
+  // Add styling for the fallback note if needed
+  font-style: italic;
+  color: gray;
+}
+
+.team-list {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  gap: 10px;
+  margin-bottom: 30px;
+  padding-bottom: 30px;
+  position: relative;
+
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0; /* Keep it at the bottom of the relative container */
+    width: 75%;  /* Changed the width to 75% */
+    height: 1px;
+    background-color: $color-text;
+    transform: translateX(-50%);
+  }
+}
+
+.team-member {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  flex-basis: calc(50% - 5px);
+}
+
+.team-member {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  flex-basis: calc(25% - 7.5px); /* Default: 4 columns */
+}
+
+.team-list {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 30px;
+  gap: 10px;
+  padding-bottom: 40px;
+  position: relative;
+  border-bottom: none;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 75%;
+    height: 1px;
+    background-color: $color-text;
+    transform: translateX(-50%);
+  }
+
+  .team-member {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    /* Default for mobile (2 columns) */
+    flex-basis: calc(50% - 5px);
+  }
+
+  /* 3 Columns at 700px and wider */
+  @media (min-width: 700px) {
+    .team-member {
+      flex-basis: calc(33.333% - 6.666px);
+    }
+  }
+
+  /* 4 Columns at 1024px and wider */
+  @media (min-width: 1024px) {
+    .team-member {
+      flex-basis: calc(25% - 7.5px);
+    }
+  }
+
+  /* Adjust for specific crew counts */
+
+  /* 1 Crew Member */
+  &.crew-1 .team-member {
+    flex-basis: calc(100% - 10px);
+  }
+
+  /* 2 Crew Members (default mobile) */
+  &.crew-2 .team-member {
+    flex-basis: calc(50% - 5px);
+  }
+
+  /* 3 Crew Members */
+  &.crew-3 .team-member {
+    /* Mobile: 1 column */
+    flex-basis: calc(100% - 10px);
+
+    /* Tablet & Desktop: 3 columns */
+    @media (min-width: 700px) {
+      flex-basis: calc(33.333% - 6.666px);
+    }
+  }
+
+  /* 4 Crew Members */
+  &.crew-4 .team-member {
+    /* Mobile: 2 columns */
+    @media (max-width: 699px) {
+      flex-basis: calc(50% - 5px);
+    }
+    /* Tablet: 2 columns */
+    @media (min-width: 700px) and (max-width: 1023px) {
+      flex-basis: calc(33.333% - 6.666px);
+    }
+    /* Desktop: 4 columns */
+    @media (min-width: 1024px) {
+      flex-basis: calc(25% - 7.5px);
+    }
+  }
+
+}
+
+.member-name {
+  margin-top: 0;
+}
+
+.member-image-container {
+  margin: 10px auto;
+  overflow: hidden;
+  border-radius: 5px;
+}
+
+.member-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.member-roles {
+  margin-bottom: 5px;
+
+  strong {
+    font-weight: bold;
+  }
+
+  .role-names {
+    font-style: italic;
+  }
+}
+
+.member-planet {
+  margin-bottom: 0;
+
+  strong {
+    font-weight: bold;
+  }
+
+  .planet-name {
+    font-weight: normal;
+  }
 }

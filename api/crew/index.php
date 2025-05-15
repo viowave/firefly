@@ -46,6 +46,7 @@ try {
         c.is_custom,
         c.cost,
         c.planet_id,
+        P.name as planet_name,
         c.source_id,
         s.name AS source_name,
         c.image_url,
@@ -57,6 +58,7 @@ try {
     LEFT JOIN roles r ON cr.role_id = r.id
     LEFT JOIN sources s ON c.source_id = s.id
     LEFT JOIN crew_exclusions ce ON c.id = ce.crew_id
+    LEFT JOIN planets p ON c.planet_id = p.id
     $whereClause
     GROUP BY c.id;";
 

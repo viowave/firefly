@@ -12,7 +12,7 @@ $maxCost = $_GET['max_cost'] ?? '';
 // Build the base SQL query
 $sql = "SELECT 
             crew.id, crew.name, crew.description, crew.fight_points, crew.tech_points, crew.talk_points, 
-            crew.moral, crew.leader, crew.wanted, crew.is_custom, crew.cost, 
+            crew.moral, crew.leader, crew.wanted, crew.is_custom, crew.cost, crew.image_url,
             planets.name AS planet_name, sources.name AS source_name
         FROM crew
         LEFT JOIN planets ON crew.planet_id = planets.id
@@ -120,6 +120,7 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <th>Source</th>
             <th>Roles</th>
             <th>Keywords</th>
+            <th>Image</th>
             <th></th>
         </tr>
         <?php foreach ($result as $row): ?>
@@ -141,6 +142,9 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </td>
                 <td>
                     <?= implode(', ', $pdo->query("SELECT keywords.name FROM keywords JOIN crew_keywords ON keywords.id = crew_keywords.keyword_id WHERE crew_keywords.crew_id = " . $row['id'])->fetchAll(PDO::FETCH_COLUMN)); ?>
+                </td>
+                <td>
+                    <img src="/uploads/crew/<?= htmlspecialchars($row['image_url']) ?>" alt="Crew image" style="max-width: 50px;">
                 </td>
                 <td>
                     <div class="button-group tiny">

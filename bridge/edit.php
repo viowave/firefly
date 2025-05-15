@@ -23,51 +23,73 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
     try {
         // Begin transaction
         $pdo->beginTransaction();
-        
+
         // Set default values for checkboxes
         $moral = isset($_POST['moral']) ? 1 : 0;
         $leader = isset($_POST['leader']) ? 1 : 0;
         $wanted = isset($_POST['wanted']) ? 1 : 0;
         $is_custom = isset($_POST['is_custom']) ? 1 : 0;
-        
+
         // Handle image upload if a new file was provided
-        $imagePath = $crew['image_url']; // Now $crew is defined before being used
-        
+        $imageFilename = $crew['image_url']; // Initialize with the existing filename
+
         if (isset($_FILES['image']) && $_FILES['image']['size'] > 0) {
-            $uploadDir = 'uploads/crew/';
-            
-            // Create directory if it doesn't exist
+            $uploadDir = __DIR__ . '/../uploads/crew/';
             if (!file_exists($uploadDir)) {
                 mkdir($uploadDir, 0755, true);
             }
-            
-            // Generate a unique filename
-            $fileName = uniqid() . '_' . basename($_FILES['image']['name']);
-            $targetFile = $uploadDir . $fileName;
-            
-            // Check file type
-            $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
-            $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
-            
-            if (!in_array($imageFileType, $allowedExtensions)) {
-                throw new Exception("Only JPG, JPEG, PNG, and GIF files are allowed.");
+
+            $originalFilename = basename($_FILES['image']['name']);
+            $fileExtension = strtolower(pathinfo($originalFilename, PATHINFO_EXTENSION));
+            $newFilename = $id . "_" . preg_replace('/[^a-zA-Z0-9_]/', '_', $_POST['name']) . ".webp";
+            $targetFile = $uploadDir . $newFilename;
+            $imageFilename = $newFilename; // Update the filename to save
+
+            // Check if GD library with WebP support is available
+            if (!function_exists('imagewebp')) {
+                throw new Exception("❌ WebP support is not enabled on the server.");
             }
-            
-            // Move uploaded file
-            if (move_uploaded_file($_FILES['image']['tmp_name'], $targetFile)) {
+
+            $sourcePath = $_FILES['image']['tmp_name'];
+            $sourceImage = null;
+            switch ($fileExtension) {
+                case 'jpg':
+                case 'jpeg':
+                    $sourceImage = imagecreatefromjpeg($sourcePath);
+                    break;
+                case 'png':
+                    $sourceImage = imagecreatefrompng($sourcePath);
+                    break;
+                case 'gif':
+                    $sourceImage = imagecreatefromgif($sourcePath);
+                    break;
+                case 'webp':
+                    $sourceImage = imagecreatefromwebp($sourcePath);
+                    break;
+                default:
+                    throw new Exception("❌ Unsupported image format.");
+            }
+
+            if ($sourceImage) {
+                // Save as WebP with quality 80 (adjust as needed)
+                imagewebp($sourceImage, $targetFile, 80);
+                imagedestroy($sourceImage);
+
                 // Delete old image if exists and is different
-                if (!empty($crew['image_url']) && file_exists($crew['image_url']) && $crew['image_url'] !== $targetFile) {
-                    unlink($crew['image_url']);
-                }                
-                $imagePath = $targetFile;
+                if (!empty($crew['image_url'])) {
+                    $oldImagePath = __DIR__ . '/../uploads/crew/' . $crew['image_url'];
+                    if (file_exists($oldImagePath) && basename($oldImagePath) !== $newFilename) {
+                        unlink($oldImagePath);
+                    }
+                }
             } else {
-                throw new Exception("Failed to upload image.");
+                throw new Exception("❌ Could not create image resource.");
             }
         }
-        
+
         // Update crew member information
         $stmt = $pdo->prepare("
-            UPDATE crew SET 
+            UPDATE crew SET
                 name = :name,
                 description = :description,
                 fight_points = :fight_points,
@@ -83,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
                 image_url = :image_url
             WHERE id = :id
         ");
-        
+
         $stmt->execute([
             'name' => $_POST['name'],
             'description' => $_POST['description'],
@@ -97,14 +119,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
             'cost' => $_POST['cost'],
             'planet_id' => $_POST['planet'],
             'source_id' => $_POST['source'],
-            'image_url' => $imagePath,
+            'image_url' => $imageFilename,
             'id' => $id
         ]);
-        
+
         // Update roles - first delete existing roles
         $stmt = $pdo->prepare("DELETE FROM crew_roles WHERE crew_id = :crew_id");
         $stmt->execute(['crew_id' => $id]);
-        
+
         // Insert new roles
         if (isset($_POST['roles']) && is_array($_POST['roles'])) {
             $roleStmt = $pdo->prepare("INSERT INTO crew_roles (crew_id, role_id) VALUES (:crew_id, :role_id)");
@@ -115,11 +137,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
                 ]);
             }
         }
-        
+
         // Update keywords - first delete existing keywords
         $stmt = $pdo->prepare("DELETE FROM crew_keywords WHERE crew_id = :crew_id");
         $stmt->execute(['crew_id' => $id]);
-        
+
         // Insert new keywords
         if (isset($_POST['keywords']) && is_array($_POST['keywords'])) {
             $keywordStmt = $pdo->prepare("INSERT INTO crew_keywords (crew_id, keyword_id) VALUES (:crew_id, :keyword_id)");
@@ -130,10 +152,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
                 ]);
             }
         }
-        
+
         // Commit transaction
         $pdo->commit();
-        
+
 
         // Handle exclusions
         if (isset($_POST['excluded_crew'])) {
@@ -170,7 +192,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
         // Redirect to prevent form resubmission
         header("Location: view.php?id=$id&updated=1");
         exit;
-        
+
     } catch (Exception $e) {
         // Rollback transaction on error
         $pdo->rollBack();
@@ -273,11 +295,11 @@ $excludedCrew = $excludedStmt->fetchAll(PDO::FETCH_COLUMN);
                     <?php endforeach; ?>
                 </select>
             </label>
-            <label>Upload Image:<input type="file" name="image" accept="image/*"></label>
-            <?php if (!empty($crew['image'])): ?>
+            <label>Upload Image:<input type="file" name="image" accept="image/jpeg, image/png, image/gif, image/webp"></label>
+            <?php if (!empty($crew['image_url'])): ?>
                 <div class="thumbnail-preview">
                     <p>Current image:</p>
-                    <img src="<?= htmlspecialchars($crew['image']) ?>" alt="Crew image" style="max-width: 150px;">
+                    <img src="/uploads/crew/<?= htmlspecialchars($crew['image_url']) ?>" alt="Crew image" style="max-width: 150px;">
                 </div>
             <?php endif; ?>
             <label>Excluded Crew Members:</label>
@@ -286,7 +308,7 @@ $excludedCrew = $excludedStmt->fetchAll(PDO::FETCH_COLUMN);
                 <option value="<?= htmlspecialchars($crewMember['id']) ?>"
                     <?= in_array($crewMember['id'], $excludedCrew ?? []) ? 'selected' : '' ?>>
                     #<?= htmlspecialchars($crewMember['id']) ?> - <?= htmlspecialchars($crewMember['name']) ?>
-                    (<?= htmlspecialchars($crewMember['source'] ?? 'No Source') ?>, 
+                    (<?= htmlspecialchars($crewMember['source'] ?? 'No Source') ?>,
                     <?= htmlspecialchars($crewMember['planet'] ?? 'No Planet') ?>)
                 </option>
             <?php endforeach; ?>
