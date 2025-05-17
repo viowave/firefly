@@ -13,3 +13,6 @@ bridge/node_modules/
 bridge/Book2.csv
 bridge/package.json
 bridge/package-lock.json
+.gitignore
+.git-ftp.log
+.git-ftp-ignore
