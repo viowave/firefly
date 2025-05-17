@@ -144,7 +144,7 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <?= implode(', ', $pdo->query("SELECT keywords.name FROM keywords JOIN crew_keywords ON keywords.id = crew_keywords.keyword_id WHERE crew_keywords.crew_id = " . $row['id'])->fetchAll(PDO::FETCH_COLUMN)); ?>
                 </td>
                 <td>
-                    <img src="/uploads/crew/<?= htmlspecialchars($row['image_url']) ?>" alt="Crew image" style="max-width: 50px;">
+                    <img src="../uploads/crew/<?= htmlspecialchars($row['image_url']) ?>" alt="Crew image" style="max-width: 50px;">
                 </td>
                 <td>
                     <div class="button-group tiny">

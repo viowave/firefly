@@ -12,11 +12,11 @@
     if (file_exists($manifestPath)) {
         $manifest = json_decode(file_get_contents($manifestPath), true);
         if (isset($manifest['main.css']['file'])) {
-            echo '<link rel="stylesheet" href="../dist/' . htmlspecialchars($manifest['main.css']['file']) . '">';
+            echo '<link rel="stylesheet" href="dist/' . htmlspecialchars($manifest['main.css']['file']) . '">';
         }
     } else {
         // Handle the case where manifest.json is not found (e.g., development mode)
-        echo '<link rel="stylesheet" href="../dist/assets/main.css">'; // Or some default
+        echo '<link rel="stylesheet" href="dist/assets/main.css">'; // Or some default
     }
     ?>
 </head>
@@ -58,13 +58,16 @@
                 <button type="submit">Run Draft</button>
             </div>
         </form>
+        <script>
+            window.APP_ENV = '<?php echo getenv('APPLICATION_ENV') ?: 'development'; ?>';
+        </script>
         <?php
         if (file_exists($manifestPath)) {
             if (isset($manifest['main.js']['file'])) {
-                echo '<script src="../dist/' . htmlspecialchars($manifest['main.js']['file']) . '"></script>';
+                echo '<script src="dist/' . htmlspecialchars($manifest['main.js']['file']) . '"></script>';
             }
         } else {
-            echo '<script  src="../dist/assets/main.js"></script>';
+            echo '<script  src="dist/assets/main.js"></script>';
         }
         ?>
     </div>

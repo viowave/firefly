@@ -77,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
 
                 // Delete old image if exists and is different
                 if (!empty($crew['image_url'])) {
-                    $oldImagePath = __DIR__ . '/../uploads/crew/' . $crew['image_url'];
+                    $oldImagePath = __DIR__ . '../uploads/crew/' . $crew['image_url'];
                     if (file_exists($oldImagePath) && basename($oldImagePath) !== $newFilename) {
                         unlink($oldImagePath);
                     }
@@ -299,7 +299,7 @@ $excludedCrew = $excludedStmt->fetchAll(PDO::FETCH_COLUMN);
             <?php if (!empty($crew['image_url'])): ?>
                 <div class="thumbnail-preview">
                     <p>Current image:</p>
-                    <img src="/uploads/crew/<?= htmlspecialchars($crew['image_url']) ?>" alt="Crew image" style="max-width: 150px;">
+                    <img src="../uploads/crew/<?= htmlspecialchars($crew['image_url']) ?>" alt="Crew image" style="max-width: 150px;">
                 </div>
             <?php endif; ?>
             <label>Excluded Crew Members:</label>

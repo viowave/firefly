@@ -46,7 +46,7 @@ try {
         c.is_custom,
         c.cost,
         c.planet_id,
-        P.name as planet_name,
+        p.name as planet_name,
         c.source_id,
         s.name AS source_name,
         c.image_url,

@@ -61,9 +61,15 @@ class ApiClient
 {
     private $baseUrl;
 
-    public function __construct($baseUrl = 'http://firefly.test/api')
+    public function __construct($baseUrl = null) // Make the default null
     {
-        $this->baseUrl = $baseUrl;
+        $env = getenv('APPLICATION_ENV');
+
+        if ($env === 'production') {
+            $this->baseUrl = 'http://cheatersnever.win/firefly/api'; // Replace with your production API URL
+        } else {
+            $this->baseUrl = $baseUrl ?: 'http://firefly.test/api'; // Use provided $baseUrl or default to dev
+        }
     }
 
     /**
@@ -650,7 +656,7 @@ class DraftView
                 
                 // Card
                 $teamHTML .= '<div class="member-image-container">';
-                $imagePath = !empty($member['image_url']) ? "/uploads/crew/" . htmlspecialchars($member['image_url']) : "/uploads/crew/4_Bridgit.webp";
+                $imagePath = !empty($member['image_url']) ? "uploads/crew/" . htmlspecialchars($member['image_url']) : "uploads/crew/4_Bridgit.webp";
                 $teamHTML .= '<img src="' . $imagePath . '" alt="' . htmlspecialchars($member['crew_name']) . '" class="member-image">';
                 $teamHTML .= '</div>';
 

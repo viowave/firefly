@@ -2,10 +2,15 @@ import './styles.scss';
 
 // Configuration
 const CONFIG = {
-    API_BASE_URL: process.env.API_BASE_URL || 'http://firefly.test',
     DEFAULT_PLAYER_COUNT: 2,
     DEFAULT_CREW_NEEDED: 1
 };
+
+if (window.APP_ENV === 'production') {
+    CONFIG.API_BASE_URL = 'http://cheatersnever.win/firefly'; // Replace with your production URL
+} else {
+    CONFIG.API_BASE_URL = process.env.API_BASE_URL || 'http://firefly.test';
+}
 
 class FireflySetup {
     constructor() {

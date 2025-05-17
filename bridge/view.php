@@ -61,7 +61,7 @@ $excludedCrew = $excludedStmt->fetchAll(PDO::FETCH_COLUMN);
     <?php if (!empty($crew['image_url'])): ?>
         <div class="crew-image">
             <p><strong>Image:</strong></p>
-            <img src="/uploads/crew/<?= htmlspecialchars($crew['image_url']) ?>" alt="Crew Image" style="max-width: 150px;">
+            <img src="../uploads/crew/<?= htmlspecialchars($crew['image_url']) ?>" alt="Crew Image" style="max-width: 150px;">
         </div>
     <?php endif; ?>
 

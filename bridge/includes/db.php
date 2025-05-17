@@ -3,9 +3,19 @@ header("Access-Control-Allow-Origin: http://firefly.test:5173");
 header("Access-Control-Allow-Methods: GET, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 
-$dsn = "mysql:host=localhost;dbname=firefly;charset=utf8mb4";
-$username = "root";  // Change if needed
-$password = "jubilee";      // Change if needed
+$env = getenv('APPLICATION_ENV');
+
+if ($env === 'production') {
+    // PRODUCTION
+    $dsn = "mysql:host=localhost;dbname=cheaouej_firefly;charset=utf8mb4";
+    $username = "cheaouej_admin";
+    $password = "(Y$[nAanL37H";
+} else {
+    // DEV (or any other environment)
+    $dsn = "mysql:host=localhost;dbname=firefly;charset=utf8mb4";
+    $username = "root";
+    $password = "jubilee";
+}
 
 try {
     $pdo = new PDO($dsn, $username, $password, [
