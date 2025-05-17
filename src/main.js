@@ -359,42 +359,98 @@ class FireflySetup {
         return formData;
     }
 
-    async handleFormSubmit(event) {
-        event.preventDefault();
-        this.validateForm(event);
-    
-        const formData = this.getFormData();
-    
-        try {
-            this.showLoading('resultsContainer');
-            const response = await fetch('run_draft.php', {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
-            });
-    
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+async handleFormSubmit(event) {
+    event.preventDefault();
+    this.validateForm(event);
+
+    const formData = this.getFormData();
+    const resultsContainer = this.elements.resultsContainer;
+    const loadingOverlay = document.getElementById('loading-overlay');
+
+    // Clear previous results immediately
+    if (resultsContainer) {
+        resultsContainer.innerHTML = '';
+    }
+
+    try {
+        // Show the loading overlay IMMEDIATELY and it will be opaque
+        if (loadingOverlay) {
+            loadingOverlay.classList.add('active');
+        }
+        this.showLoading('resultsContainer'); // You might want to adjust this
+
+        // Scroll to the top while the overlay is visible
+        window.scrollTo(0, 0);
+
+        const response = await fetch('run_draft.php', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
             }
-    
-            const resultsHTML = await response.text();
-            if (this.elements.resultsContainer) { // Add this check
-                this.elements.resultsContainer.innerHTML = resultsHTML;
-                if (this.elements.initialWrapper) {
-                    this.elements.initialWrapper.remove();
-                }
-            } else {
-                console.error('Error: .resultsWrapper container not found in the DOM.');
-                this.showError('Failed to display results. Please try again.');
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const resultsHTML = await response.text();
+
+        // Small delay before displaying results (optional)
+        await new Promise(resolve => setTimeout(resolve, 100));
+
+        if (resultsContainer) {
+            resultsContainer.innerHTML = resultsHTML;
+            if (this.elements.initialWrapper) {
+                this.elements.initialWrapper.remove();
             }
-    
-        } catch (error) {
-            console.error('Error submitting form:', error);
-            this.showError('Failed to run the draft. Please try again.');
-        } finally {
-            this.hideLoading('resultsContainer');
+
+            // Delay before fading out the overlay
+            await new Promise(resolve => setTimeout(resolve, 500));
+
+            // Hide the loading overlay by fading it out
+            if (loadingOverlay) {
+                loadingOverlay.classList.remove('active'); // Fade out
+            }
+        } else {
+            console.error('Error: .resultsWrapper container not found in the DOM.');
+            this.showError('Failed to display results. Please try again.');
+        }
+
+    } catch (error) {
+        console.error('Error submitting form:', error);
+        this.showError('Failed to run the draft. Please try again.');
+    } finally {
+        // Ensure the overlay is hidden in case of error
+        if (loadingOverlay) {
+            loadingOverlay.classList.remove('active');
+        }
+        this.hideLoading('resultsContainer'); // You might want to adjust this
+    }
+}r
+
+    showLoading(elementName) {
+        // You might want to adjust the behavior of your original loading indicator
+        // For example, you could disable the form or show a smaller indicator.
+        const container = this.elements[elementName];
+        if (container && !document.getElementById('loading-overlay')) { // Only show if the overlay isn't active
+            container.classList.add('loading');
+            const loadingEl = document.createElement('div');
+            loadingEl.className = 'loading-indicator';
+            loadingEl.textContent = 'Loading...';
+            container.appendChild(loadingEl);
+        }
+    }
+
+    hideLoading(elementName) {
+        // Ensure the overlay is hidden regardless of the original loading indicator
+        const container = this.elements[elementName];
+        if (container) {
+            container.classList.remove('loading');
+            const indicator = container.querySelector('.loading-indicator');
+            if (indicator) {
+                indicator.remove();
+            }
         }
     }
 }

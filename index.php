@@ -21,6 +21,11 @@
     ?>
 </head>
 <body>
+    <div id="loading-overlay">
+        <div class="loading-content papyrus-font">
+            <p>Loading Draft Results...</p>
+        </div>
+    </div>
     <div class="wrapper">
         <h1 class="papyrus-font">Firefly Crew Picker</h1>
         <form action="run_draft.php" method="post">
