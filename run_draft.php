@@ -108,15 +108,39 @@ class ApiClient
     }
 
     /**
-     * Fetch crew members based on source IDs
+     * Fetch crew members based on source IDs and apply source exclusions
      *
      * @param array|string $sourceIds Source IDs to filter by
      * @return array Crew members data
      */
     public function fetchCrew($sourceIds)
     {
-        $sources = is_array($sourceIds) ? implode(',', $sourceIds) : $sourceIds;
-        return $this->fetchData('crew', ['sources' => $sources]);
+        $sourcesParam = is_array($sourceIds) ? implode(',', $sourceIds) : $sourceIds;
+        $crewData = $this->fetchData('crew', ['sources' => $sourcesParam]);
+        $initialCrewCount = count($crewData);
+        error_log("DEBUG: Initial crew count after fetching sources: " . $initialCrewCount);
+
+        $sourcesData = $this->fetchData('sources'); // Fetch all source data
+
+        $globalExclusions = [];
+        foreach ($sourcesData as $source) {
+            if (in_array($source['source_id'], $sourceIds) && !empty($source['exclusions'])) {
+                $globalExclusions = array_merge($globalExclusions, $source['exclusions']);
+            }
+        }
+        // Remove duplicates from the global exclusions array
+        $globalExclusions = array_unique($globalExclusions);
+        $exclusionCount = count($globalExclusions);
+        error_log("DEBUG: Total number of global exclusions from selected sources: " . $exclusionCount);
+
+        $filteredCrew = array_filter($crewData, function ($crew) use ($globalExclusions) {
+            return !in_array($crew['id'], $globalExclusions);
+        });
+
+        $finalCrewCount = count($filteredCrew);
+        error_log("DEBUG: Final crew count after applying source exclusions: " . $finalCrewCount);
+
+        return array_values($filteredCrew); // Re-index the array after filtering
     }
 }
 
