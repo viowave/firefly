@@ -1,0 +1,17 @@
+node_modules/
+package.json
+package-lock.json
+.gitignore
+.npmrc
+vite.config.js
+README.md
+.vscode/
+.env
+src/
+webp-files/
+bridge/node_modules/
+bridge/scss/
+bridge/Book2.csv
+bridge/gulpfile.js
+bridge/package.json
+bridge/package-lock.json

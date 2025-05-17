@@ -4,4 +4,12 @@ package-lock.json
 vite.config.js
 .DS_Store       # macOS specific
 *.log           # Log files
-/coverage       # Jest coverage directory
+.npmrc
+README.md
+.vscode/
+.env
+webp-files/
+bridge/node_modules/
+bridge/Book2.csv
+bridge/package.json
+bridge/package-lock.json
