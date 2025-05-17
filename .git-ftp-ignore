@@ -17,3 +17,4 @@ bridge/Book2.csv
 bridge/gulpfile.js
 bridge/package.json
 bridge/package-lock.json
+/.htaccess

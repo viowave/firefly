@@ -16,3 +16,4 @@ bridge/package-lock.json
 .gitignore
 .git-ftp.log
 .git-ftp-ignore
+.htaccess
