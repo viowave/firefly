@@ -1,20 +1,27 @@
+# Skip dev dependencies and configs
 node_modules/
+bridge/node_modules/
 package.json
 package-lock.json
-.gitignore
-.git-ftp.log
-.git-ftp-ignore
-.npmrc
+bridge/package.json
+bridge/package-lock.json
 vite.config.js
+bridge/gulpfile.js
+.npmrc
 README.md
 .vscode/
 .env
+
+# Skip Git and Git-FTP metadata
+.gitignore
+.git-ftp.log
+.git-ftp-ignore
+
+# Skip raw sources and files not needed on server
 src/
 webp-files/
-bridge/node_modules/
 bridge/scss/
 bridge/Book2.csv
-bridge/gulpfile.js
-bridge/package.json
-bridge/package-lock.json
+
+# Skip ONLY the root .htaccess
 /.htaccess

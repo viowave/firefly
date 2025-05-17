@@ -1,9 +1,14 @@
 node_modules/
+# dist/ is ignored by default...
+# !dist/ overrides that to allow tracking
 dist/
+!dist/
+!dist/**
+
 package-lock.json
 vite.config.js
-.DS_Store       # macOS specific
-*.log           # Log files
+.DS_Store
+*.log
 .npmrc
 README.md
 .vscode/
