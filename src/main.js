@@ -368,75 +368,77 @@ getFormData() {
     return formData;
 }
 
-async handleFormSubmit(event) {
-    event.preventDefault();
-    this.validateForm(event);
+    async handleFormSubmit(event) {
+        event.preventDefault();
+        this.validateForm(event);
 
-    const formData = this.getFormData();
-    const resultsContainer = this.elements.resultsContainer;
-    const loadingOverlay = document.getElementById('loading-overlay');
+        const formData = this.getFormData();
+        const resultsContainer = this.elements.resultsContainer;
+        const loadingOverlay = document.getElementById('loading-overlay');
 
-    // Clear previous results immediately
-    if (resultsContainer) {
-        resultsContainer.innerHTML = '';
-    }
-
-    try {
-        // Show the loading overlay IMMEDIATELY and it will be opaque
-        if (loadingOverlay) {
-            loadingOverlay.classList.add('active');
-        }
-        this.showLoading('resultsContainer'); // You might want to adjust this
-
-        // Scroll to the top while the overlay is visible
-        window.scrollTo(0, 0);
-
-        const response = await fetch('run_draft.php', {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const resultsHTML = await response.text();
-
-        // Small delay before displaying results (optional)
-        await new Promise(resolve => setTimeout(resolve, 100));
-
+        // Clear previous results immediately
         if (resultsContainer) {
-            resultsContainer.innerHTML = resultsHTML;
-            if (this.elements.initialWrapper) {
-                this.elements.initialWrapper.remove();
-            }
+            resultsContainer.innerHTML = '';
+            resultsContainer.classList.remove('visible'); // Ensure it's not visible from a previous run
+        }
 
-            // Delay before fading out the overlay
-            await new Promise(resolve => setTimeout(resolve, 500));
-
-            // Hide the loading overlay by fading it out
+        try {
+            // Show the loading overlay IMMEDIATELY
             if (loadingOverlay) {
-                loadingOverlay.classList.remove('active'); // Fade out
+                loadingOverlay.classList.add('active');
             }
-        } else {
-            console.error('Error: .resultsWrapper container not found in the DOM.');
-            this.showError('Failed to display results. Please try again.');
-        }
+            this.showLoading('resultsContainer');
 
-    } catch (error) {
-        console.error('Error submitting form:', error);
-        this.showError('Failed to run the draft. Please try again.');
-    } finally {
-        // Ensure the overlay is hidden in case of error
-        if (loadingOverlay) {
-            loadingOverlay.classList.remove('active');
+            // Scroll to the top while the overlay is visible
+            window.scrollTo(0, 0);
+
+            const response = await fetch('run_draft.php', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const resultsHTML = await response.text();
+
+            // Small delay before displaying results (optional)
+            await new Promise(resolve => setTimeout(resolve, 100));
+
+            if (resultsContainer) {
+                resultsContainer.innerHTML = resultsHTML;
+                resultsContainer.classList.add('visible'); // Make the results visible
+                if (this.elements.initialWrapper) {
+                    this.elements.initialWrapper.remove();
+                }
+
+                // Delay before fading out the overlay
+                await new Promise(resolve => setTimeout(resolve, 500));
+
+                // Hide the loading overlay by fading it out
+                if (loadingOverlay) {
+                    loadingOverlay.classList.remove('active');
+                }
+            } else {
+                console.error('Error: .resultsWrapper container not found in the DOM.');
+                this.showError('Failed to display results. Please try again.');
+            }
+
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            this.showError('Failed to run the draft. Please try again.');
+        } finally {
+            // Ensure the overlay is hidden in case of error
+            if (loadingOverlay) {
+                loadingOverlay.classList.remove('active');
+            }
+            this.hideLoading('resultsContainer');
         }
-        this.hideLoading('resultsContainer'); // You might want to adjust this
     }
-}r
 
     showLoading(elementName) {
         // You might want to adjust the behavior of your original loading indicator

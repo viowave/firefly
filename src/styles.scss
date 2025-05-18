@@ -27,6 +27,7 @@ body {
 }
 
 .resultsWrapper {
+  display: none;
   max-width: 1440px;
   padding-bottom: 50px;
   @media (min-width: 700px) {
@@ -35,7 +36,9 @@ body {
   @media (min-width: 1024px) {
     padding: 0 50px 50px;
   }
-
+  &.visible {
+    display: block;    
+  }
 
 }
 
