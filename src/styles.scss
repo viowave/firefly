@@ -380,15 +380,7 @@ button {
   visibility: visible; /* Make visible when the 'active' class is added */
 }
 
-#loading-overlay .loading-content {
-  background-color: #ffffff;
-  border-radius: 0.5rem;
-  padding: 2rem;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05);
-}
-
 #loading-overlay .loading-content p {
   font-weight: 600;
-  color: $color-bg;
+  color: $color-text;
 }

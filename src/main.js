@@ -328,36 +328,45 @@ class FireflySetup {
         }
     }
 
-    updatePlayerNameInputs(playerCount) {
-        const playerNamesContainer = this.elements.playerNames;
-        playerNamesContainer.innerHTML = ''; // Clear previous inputs
+updatePlayerNameInputs(playerCount) {
+    const playerNamesContainer = this.elements.playerNames;
+    playerNamesContainer.innerHTML = ''; // Clear previous inputs
 
-        // this.inputs.playerNames = []; //reset. Not used, managed directly.
+    for (let i = 1; i <= playerCount; i++) {
+        const label = document.createElement('label');
+        label.textContent = `Player Name ${i}:`;
+        label.setAttribute('for', `playerName${i}`);
 
-        for (let i = 1; i <= playerCount; i++) {
-            const label = document.createElement('label');
-            label.textContent = `Player Name ${i}:`;
-            label.setAttribute('for', `playerName${i}`);
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.id = `playerName${i}`;
+        input.name = `playerName${i}`;
+        input.className = 'player-name-input';
+        input.placeholder = `Player ${i}`; // Set the placeholder text
 
-            const input = document.createElement('input');
-            input.type = 'text';
-            input.id = `playerName${i}`;
-            input.name = `playerName${i}`;
-            input.className = 'player-name-input';
+        const div = document.createElement('div'); //wrap
+        div.className = 'player-name-input-group';
+        div.appendChild(label);
+        div.appendChild(input);
 
-            const div = document.createElement('div'); //wrap
-            div.className = 'player-name-input-group';
-            div.appendChild(label);
-            div.appendChild(input);
+        playerNamesContainer.appendChild(div);
+    }
+}
 
-            playerNamesContainer.appendChild(div);
+getFormData() {
+    const formData = new FormData(this.form);
+    const playerCount = parseInt(this.inputs.playerCount.value, 10);
+
+    // Iterate through player name inputs and use placeholder if empty
+    for (let i = 1; i <= playerCount; i++) {
+        const playerNameInput = document.getElementById(`playerName${i}`);
+        if (playerNameInput && !playerNameInput.value.trim()) {
+            formData.set(`playerName${i}`, `Player ${i}`); // Set placeholder as value if input is empty
         }
     }
 
-    getFormData() {
-        const formData = new FormData(this.form); // Use FormData to easily collect form data
-        return formData;
-    }
+    return formData;
+}
 
 async handleFormSubmit(event) {
     event.preventDefault();
