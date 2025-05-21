@@ -18,3 +18,6 @@ RewriteRule ^roles/?$ roles/index.php [L]
 
 # Route /api/sources/ to /api/sources/index.php
 RewriteRule ^sources/?$ sources/index.php [L]
+
+# Route /api/ships/ to /api/ships/index.php
+RewriteRule ^ships/?$ ships/index.php [L]

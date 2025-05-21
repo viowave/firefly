@@ -7,7 +7,7 @@ const CONFIG = {
 };
 
 if (window.APP_ENV === 'production') {
-    CONFIG.API_BASE_URL = 'http://cheatersnever.win/firefly'; // Replace with your production URL
+    CONFIG.API_BASE_URL = 'http://cheatersnever.win/firefly';
 } else {
     CONFIG.API_BASE_URL = process.env.API_BASE_URL || 'http://firefly.test';
 }
@@ -21,9 +21,10 @@ class FireflySetup {
             playerCount: document.getElementById('playerCountButtons'),
             crewNeeded: document.getElementById('crewNeededButtons'),
             draftLeader: document.getElementById('draftLeaderButton'),
+            draftShip: document.getElementById('draftShipButton'),
             selectAllSources: document.getElementById('selectAllSources'),
-            playerNames: document.getElementById('playerNames'), // Added container for player name inputs
-            resultsContainer: document.querySelector('.resultsWrapper'), // Or create a new container if you prefer
+            playerNames: document.getElementById('playerNames'),
+            resultsContainer: document.querySelector('.resultsWrapper'),
             initialWrapper: document.querySelector('.wrapper')
 
         };
@@ -34,6 +35,8 @@ class FireflySetup {
             playerCount: document.getElementById('numPlayersInput'),
             crewNeeded: document.getElementById('numCrewNeededInput'),
             draftLeader: document.getElementById('draftLeaderInput'),
+            draftShip: document.getElementById('draftShipInput'),
+
             // playerNames: []  // Removed, we'll manage them directly
         };
 
@@ -63,8 +66,8 @@ class FireflySetup {
                 [1, 2, 3, 4, 5], CONFIG.DEFAULT_CREW_NEEDED);
 
             this.initDraftLeaderToggle();
+            this.initDraftShipToggle(); // <-- ADD THIS LINE
             this.form.addEventListener('submit', (event) => this.handleFormSubmit(event)); // Changed event listener
-            // this.form.addEventListener('submit', (event) => this.validateForm(event)); // Keep this for validation before submit
 
         } catch (error) {
             this.showError('Failed to initialize setup. Please try refreshing the page.');
@@ -265,6 +268,26 @@ class FireflySetup {
         });
     }
 
+    initDraftShipToggle() {
+        const button = this.elements.draftShip;
+        const input = this.inputs.draftShip;
+
+        // Ensure initial state is off if not explicitly set elsewhere
+        if (input.value !== '1') {
+            input.value = '0';
+            button.classList.remove('selected');
+        } else {
+            button.classList.add('selected');
+        }
+        button.setAttribute('aria-pressed', input.value === '1' ? 'true' : 'false');
+
+        button.addEventListener('click', () => {
+            const isSelected = button.classList.toggle('selected');
+            button.setAttribute('aria-pressed', isSelected);
+            input.value = isSelected ? '1' : '0';
+        });
+    }
+
     showLoading(elementName) {
         const container = this.elements[elementName];
         if (container) {
@@ -379,17 +402,15 @@ getFormData() {
         // Clear previous results immediately
         if (resultsContainer) {
             resultsContainer.innerHTML = '';
-            resultsContainer.classList.remove('visible'); // Ensure it's not visible from a previous run
+            resultsContainer.classList.remove('visible');
         }
 
         try {
-            // Show the loading overlay IMMEDIATELY
             if (loadingOverlay) {
                 loadingOverlay.classList.add('active');
             }
             this.showLoading('resultsContainer');
 
-            // Scroll to the top while the overlay is visible
             window.scrollTo(0, 0);
 
             const response = await fetch('run_draft.php', {
@@ -417,7 +438,7 @@ getFormData() {
                 }
 
                 // Delay before fading out the overlay
-                await new Promise(resolve => setTimeout(resolve, 500));
+                await new Promise(resolve => setTimeout(resolve, 10000));
 
                 // Hide the loading overlay by fading it out
                 if (loadingOverlay) {

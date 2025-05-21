@@ -42,6 +42,10 @@
                 </div>
                 <input type="hidden" id="numCrewNeededInput" name="numCrewNeeded" value="1">
             </div>
+            <div id="draftShipContainer">
+                <button type="button" id="draftShipButton" class="leader-toggle-button">Draft a Ship</button>
+                <input type="hidden" id="draftShipInput" name="draftShip" value="0">
+            </div>
             <div id="draftLeaderContainer">
                 <button type="button" id="draftLeaderButton" class="leader-toggle-button">Draft a Leader</button>
                 <input type="hidden" id="draftLeaderInput" name="draftLeader" value="0">

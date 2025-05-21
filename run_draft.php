@@ -4,11 +4,8 @@
  *
  * This script handles the draft logic for assigning crew members to players
  * based on various criteria including required roles, leader preferences,
- * and crew member exclusions.
+ * and crew member exclusions. It now also supports drafting ships.
  */
-
-// Include the database connection (if needed - check if your draft logic requires it)
-// require_once 'bridge/includes/db.php';  <--  Uncomment this if your original script uses it
 
 // Configuration class to handle form inputs with validation
 class DraftConfig
@@ -18,29 +15,35 @@ class DraftConfig
     public $requiredRoleIds;
     public $targetSourceIds;
     public $draftLeader;
-    public $playerNames; // Added playerNames
+    public $draftShip; // <-- ADDED: Draft Ship flag
+    public $playerNames;
 
     public function __construct()
     {
         // Sanitize and validate inputs
         $this->numPlayers = isset($_POST['numPlayers']) ? intval($_POST['numPlayers']) : 2;
         $this->numCrewNeeded = isset($_POST['numCrewNeeded']) ? intval($_POST['numCrewNeeded']) : 5;
-    
+
         // Handle comma-separated values for roles
-        $roleInput = isset($_POST['requiredRoleIds']) ? $_POST['requiredRoleIds'] : ""; // Declare and assign $roleInput
+        $roleInput = isset($_POST['requiredRoleIds']) ? $_POST['requiredRoleIds'] : "";
         $this->requiredRoleIds = $roleInput ? array_map('intval', explode(',', $roleInput)) : [];
-    
+
         // Handle sources (comma-separated string from the form)
         $sourceInput = isset($_POST['targetSourceIds']) ? $_POST['targetSourceIds'] : "";
         if (is_string($sourceInput) && !empty($sourceInput)) {
             $this->targetSourceIds = array_map('intval', explode(',', $sourceInput));
         } else {
-            $this->targetSourceIds = [1, 2, 3, 4, 5]; // Default
+            // Default to all sources if none selected, or a specific set of default IDs
+            // You might need to adjust these default IDs based on your actual source IDs
+            $this->targetSourceIds = [1, 2, 3, 4, 5, 6, 7]; // Example: Default to all sources if empty
         }
-    
+
         // Boolean for draft leader option
         $this->draftLeader = isset($_POST['draftLeader']) ? (intval($_POST['draftLeader']) === 1) : false;
-    
+
+        // <-- ADDED: Boolean for draft ship option -->
+        $this->draftShip = isset($_POST['draftShip']) ? (intval($_POST['draftShip']) === 1) : false;
+
         // Get Player Names
         $this->playerNames = [];
         for ($i = 1; $i <= $this->numPlayers; $i++) {
@@ -61,14 +64,14 @@ class ApiClient
 {
     private $baseUrl;
 
-    public function __construct($baseUrl = null) // Make the default null
+    public function __construct($baseUrl = null)
     {
         $env = getenv('APPLICATION_ENV');
 
         if ($env === 'production') {
-            $this->baseUrl = 'http://cheatersnever.win/firefly/api'; // Replace with your production API URL
+            $this->baseUrl = 'http://cheatersnever.win/firefly/api';
         } else {
-            $this->baseUrl = $baseUrl ?: 'http://firefly.test/api'; // Use provided $baseUrl or default to dev
+            $this->baseUrl = $baseUrl ?: 'http://firefly.test/api';
         }
     }
 
@@ -124,7 +127,8 @@ class ApiClient
 
         $globalExclusions = [];
         foreach ($sourcesData as $source) {
-            if (in_array($source['source_id'], $sourceIds) && !empty($source['exclusions'])) {
+            // Check if source_id exists before using it
+            if (isset($source['source_id']) && in_array($source['source_id'], $sourceIds) && !empty($source['exclusions'])) {
                 $globalExclusions = array_merge($globalExclusions, $source['exclusions']);
             }
         }
@@ -141,6 +145,19 @@ class ApiClient
         error_log("DEBUG: Final crew count after applying source exclusions: " . $finalCrewCount);
 
         return array_values($filteredCrew); // Re-index the array after filtering
+    }
+
+    /**
+     * <-- ADDED: Fetch ships based on source IDs -->
+     *
+     * @param array|string $sourceIds Source IDs to filter by
+     * @return array Ships data
+     */
+    public function fetchShips($sourceIds)
+    {
+        $sourcesParam = is_array($sourceIds) ? implode(',', $sourceIds) : $sourceIds;
+        $shipsData = $this->fetchData('ships', ['sources' => $sourcesParam]);
+        return $shipsData;
     }
 }
 
@@ -234,15 +251,27 @@ class CrewMember
         return $exclusions;
     }
 
-    /**
-     * Get the crew member's name
-     *
-     * @return string Crew Name
-     */
-    public function getName()
+}
+
+class Ship
+{
+    public $data;
+
+    public function __construct($data)
     {
-        return isset($this->data['crew_name']) ? $this->data['crew_name'] : '';
+        $this->data = $data;
     }
+
+    /**
+     * Get the ship's ID
+     *
+     * @return int Ship ID
+     */
+    public function getId()
+    {
+        return isset($this->data['id']) ? (int)$this->data['id'] : 0;
+    }
+
 }
 
 /**
@@ -254,23 +283,31 @@ class DraftManager
     private $mainPool = [];
     private $leaderPool = [];
     private $requiredRolePool = [];
+    private $shipPool = []; // <-- ADDED: Ship Pool
     private $teams = [];
-    private $drafted = [];
+    private $draftedCrew = []; // Renamed from $drafted to be specific
+    private $draftedShips = []; // <-- ADDED: Track drafted ships
     private $leadersDrafted = [];
+    private $shipsDrafted = []; // <-- ADDED: Track if a ship has been drafted by a player
     private $requiredRolesFilled = [];
     private $allCrew = [];
+    private $allShips = []; // <-- ADDED: Store all ships
     private $fallbackNotes = [];
 
-    public function __construct(DraftConfig $config, array $allCrew)
+    public function __construct(DraftConfig $config, array $allCrew, array $allShips) // <-- MODIFIED: Add allShips
     {
         $this->config = $config;
         $this->allCrew = array_map(function ($crew) {
             return new CrewMember($crew);
         }, $allCrew);
+        $this->allShips = array_map(function ($ship) { // <-- ADDED: Map raw ship data to Ship objects
+            return new Ship($ship);
+        }, $allShips);
 
         // Initialize team arrays
         $this->teams = [];
         $this->leadersDrafted = array_fill(0, $config->numPlayers, false);
+        $this->shipsDrafted = array_fill(0, $config->numPlayers, false); // <-- ADDED: Initialize ship drafted tracking
 
         // Initialize role tracking
         for ($i = 0; $i < $config->numPlayers; $i++) {
@@ -282,18 +319,18 @@ class DraftManager
         // Initialize teams with player names
         if (is_array($this->config->playerNames) && count($this->config->playerNames) > 0) {
             foreach ($this->config->playerNames as $playerName) {
-                $this->teams[] = ['playerName' => $playerName, 'members' => []];
+                $this->teams[] = ['playerName' => $playerName, 'members' => [], 'ship' => null]; // <-- MODIFIED: Add ship slot
             }
         } else {
-            for ($i = 0; $i < $this->config->numPlayers; $i++) {
-                $this->teams[] = ['playerName' => 'Player ' . ($i + 1), 'members' => []];
+            for ($i = 0; i < $this->config->numPlayers; $i++) {
+                $this->teams[] = ['playerName' => 'Player ' . ($i + 1), 'members' => [], 'ship' => null]; // <-- MODIFIED: Add ship slot
             }
         }
         $this->initializePools();
     }
 
     /**
-     * Split crew into different pools based on properties
+     * Split crew and ships into different pools based on properties
      */
     private function initializePools()
     {
@@ -317,6 +354,10 @@ class DraftManager
                 }
             }
         }
+
+        // <-- ADDED: Initialize ship pool -->
+        $this->shipPool = $this->allShips;
+        shuffle($this->shipPool); // Shuffle ships initially
     }
 
     /**
@@ -355,7 +396,7 @@ class DraftManager
         $this->requiredRolePool = $filterPool($this->requiredRolePool);
 
         // Track drafted crew
-        $this->drafted[] = $draftedId;
+        $this->draftedCrew[] = $draftedId;
     }
 
     /**
@@ -377,7 +418,7 @@ class DraftManager
                             return $c->getId();
                         }, $this->teams[$playerIndex]['members']));
                     }
-                    return $crew->hasRole($roleId) && !in_array($crew->getId(), $this->drafted) && !$isAlreadyOnTeam;
+                    return $crew->hasRole($roleId) && !in_array($crew->getId(), $this->draftedCrew) && !$isAlreadyOnTeam;
                 });
 
                 if (!empty($candidates)) {
@@ -434,6 +475,31 @@ class DraftManager
     }
 
     /**
+     * <-- ADDED: Find and draft a ship -->
+     *
+     * @param int $playerIndex Current player index
+     * @return bool True if successful
+     */
+    private function draftShip($playerIndex)
+    {
+        if (!empty($this->shipPool)) {
+            $randomIndex = array_rand($this->shipPool);
+            $pickedShip = $this->shipPool[$randomIndex];
+
+            // Assign ship to team
+            $this->teams[$playerIndex]['ship'] = $pickedShip;
+            $this->shipsDrafted[$playerIndex] = true;
+
+            // Remove from ship pool (so it can't be drafted again)
+            unset($this->shipPool[$randomIndex]);
+            $this->shipPool = array_values($this->shipPool);
+
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Find and draft a regular crew member
      *
      * @param int $playerIndex Current player index
@@ -444,7 +510,7 @@ class DraftManager
         // Filter available crew that don't duplicate roles
         $availableCrew = array_filter($this->mainPool, function ($crew) use ($playerIndex) {
             // Check if crew is already drafted
-            if (in_array($crew->getId(), $this->drafted)) {
+            if (in_array($crew->getId(), $this->draftedCrew)) { // Changed from $this->drafted
                 return false;
             }
 
@@ -486,34 +552,53 @@ class DraftManager
     public function runDraft()
     {
         $numPicksPerPlayer = $this->config->numCrewNeeded;
+
+        // Adjust total picks if leaders or ships are to be drafted
         if ($this->config->draftLeader) {
             $numPicksPerPlayer++;
         }
-    
+        if ($this->config->draftShip) { // <-- ADDED: Account for ship pick
+            $numPicksPerPlayer++;
+        }
+
         $totalPicks = $this->config->numPlayers * $numPicksPerPlayer;
-    
+
         // Main draft loop
         for ($pick = 0; $pick < $totalPicks; $pick++) {
             $currentPlayerIndex = $this->getSnakeDraftIndex($pick, $this->config->numPlayers);
             $draftSuccess = false;
-    
-            // Try to draft a leader if needed
+
+            // Priority 1: Draft a ship if enabled and not yet drafted by this player
+            if ($this->config->draftShip && !$this->shipsDrafted[$currentPlayerIndex]) {
+                $draftSuccess = $this->draftShip($currentPlayerIndex);
+                if ($draftSuccess) {
+                    continue; // Ship drafted, move to next pick
+                }
+            }
+
+            // Priority 2: Draft a leader if enabled and not yet drafted by this player
             if ($this->config->draftLeader && !$this->leadersDrafted[$currentPlayerIndex]) {
                 $draftSuccess = $this->draftLeader($currentPlayerIndex);
+                if ($draftSuccess) {
+                    continue; // Leader drafted, move to next pick
+                }
             }
-    
-            // Try to draft a required role if needed
-            if (!$draftSuccess && in_array(false, $this->requiredRolesFilled[$currentPlayerIndex])) {
+
+            // Priority 3: Draft a required role if needed
+            if (!$draftSuccess && count($this->config->requiredRoleIds) > 0 && in_array(false, $this->requiredRolesFilled[$currentPlayerIndex])) {
                 $draftSuccess = $this->draftRequiredRole($currentPlayerIndex);
+                if ($draftSuccess) {
+                    continue; // Required role drafted, move to next pick
+                }
             }
-    
-            // Otherwise draft a regular crew member
+
+            // Priority 4: Otherwise, draft a regular crew member
             if (!$draftSuccess) {
                 $draftSuccess = $this->draftRegularCrew($currentPlayerIndex);
             }
             // If we couldn't draft anything, that's ok - we'll fill in the gaps later
         }
-    
+
         // Fill in missing required roles as best as possible
         $this->fillMissingRequiredRoles();
     }
@@ -554,15 +639,19 @@ class DraftManager
      */
     private function tryFallbackForRole($playerIndex, $roleId)
     {
-        if (empty($this->mainPool)) {
+        // Filter the main pool to avoid already drafted crew
+        $availableFallbackPool = array_filter($this->mainPool, function($crew) {
+            return !in_array($crew->getId(), $this->draftedCrew);
+        });
+
+        if (empty($availableFallbackPool)) {
             return false;
         }
 
         // Create a copy and shuffle it for randomness
-        $fallbackPool = $this->mainPool;
-        shuffle($fallbackPool);
+        shuffle($availableFallbackPool);
 
-        foreach ($fallbackPool as $key => $fallbackCrew) {
+        foreach ($availableFallbackPool as $fallbackCrew) {
             // Check if crew would duplicate any roles
             $hasDuplicateRole = false;
             $fallbackRoleIds = $fallbackCrew->getRoleIds();
@@ -574,6 +663,10 @@ class DraftManager
             }
 
 
+            if (!empty(array_intersect($fallbackRoleIds, $existingRoleIds))) {
+                $hasDuplicateRole = true;
+            }
+
             if (!$hasDuplicateRole) {
                 // Add to team
                 $this->teams[$playerIndex]['members'][] = $fallbackCrew;
@@ -581,11 +674,17 @@ class DraftManager
                 // Handle exclusions
                 $this->applyExclusions($fallbackCrew);
 
+                // Mark the role as filled for this team (if it matches the fallback role)
+                if (in_array($roleId, $fallbackRoleIds)) {
+                    $this->requiredRolesFilled[$playerIndex][$roleId] = true;
+                }
+
                 return true;
             }
         }
         return false;
     }
+
 
     /**
      * Create a mapping of role IDs to role names
@@ -595,7 +694,9 @@ class DraftManager
     private function getRoleNames()
     {
         $roleNames = [];
-
+        // To get all role names, we should ideally fetch them from an API or database
+        // For simplicity, we'll try to extract them from the available crew.
+        // A more robust solution would be to add a fetchRoles method to ApiClient.
         foreach ($this->allCrew as $crew) {
             if (isset($crew->data['roles']) && is_array($crew->data['roles'])) {
                 foreach ($crew->data['roles'] as $role) {
@@ -611,18 +712,32 @@ class DraftManager
     /**
      * Get the final teams after draft
      *
-     * @return array Teams with crew assignments
+     * @return array Teams with crew and ship assignments
      */
     public function getTeams()
     {
         $results = [];
 
         for ($i = 0; $i < $this->config->numPlayers; $i++) {
+            $teamMembers = $this->teams[$i]['members'];
+            $leader = null;
+            $regularCrew = [];
+
+            // Separate leader from regular crew
+            foreach ($teamMembers as $member) {
+                $crewMember = new CrewMember($member->data); // Re-instantiate to use isLeader()
+                if ($crewMember->isLeader()) {
+                    $leader = $member->data;
+                } else {
+                    $regularCrew[] = $member->data;
+                }
+            }
+
             $results[$i] = [
-                'playerName' => $this->teams[$i]['playerName'], //get player name
-                'members' => array_map(function ($crew) {
-                    return $crew->data;
-                }, $this->teams[$i]['members']),
+                'playerName' => $this->teams[$i]['playerName'],
+                'ship' => $this->teams[$i]['ship'] ? $this->teams[$i]['ship']->data : null,
+                'leader' => $leader,       // <-- ADDED: Leader separated
+                'regularCrew' => $regularCrew, // <-- ADDED: Regular crew separated
                 'fallbackNote' => $this->fallbackNotes[$i]
             ];
         }
@@ -643,63 +758,112 @@ class DraftView
     public static function displayResults($teams)
     {
         $resultsHTML = '<h1 class="papyrus-font">Final Draft Results</h1>';
-        foreach ($teams as $team) { // Changed from $index => $team
-            $resultsHTML .= self::displayTeam($team['playerName'], $team['members'], $team['fallbackNote']); //append team html to the results
+        foreach ($teams as $team) {
+            $resultsHTML .= '<div class="team-wrapper">';
+            $resultsHTML .= self::displayTeam($team);
+            $resultsHTML .= '</div>';
         }
-        echo $resultsHTML; // Echo out the whole thing.
+        echo $resultsHTML;
     }
 
     /**
      * Display a single team
      *
-     * @param string $playerName Player name
-     * @param array $team Team members
-     * @param string|null $fallbackNote Note about unfilled roles
+     * @param array $teamData Team data including player name, leader, regular crew, and ship
      */
-    private static function displayTeam($playerName, $team, $fallbackNote = null)
+    private static function displayTeam($teamData)
     {
-        $teamHTML =  "<h2 class='team-title'>" . htmlspecialchars($playerName) . "'s Team" . ($fallbackNote ? " *" : "") . "</h2>"; //start building team html
+        $playerName = $teamData['playerName'];
+        $ship = $teamData['ship'];
+        $leader = $teamData['leader'];           
+        $regularCrew = $teamData['regularCrew']; 
+        $fallbackNote = $teamData['fallbackNote'];
+
+        $teamHTML =  "<h2 class='team-title'>" . htmlspecialchars($playerName) . "'s Team" . ($fallbackNote ? " *" : "") . "</h2>";
         if ($fallbackNote) {
             $teamHTML .= "<p class='fallback-note'>* Could not completely fill required roles: " .
                 htmlspecialchars($fallbackNote) . "</p>";
         }
-        
-        if (!empty($team)) {
-            $crewCount = count($team);
+
+        // --- Display Ship Information ---
+        if ($ship) {
+            $shipName = htmlspecialchars($ship['ship_name'] ?? 'Unknown Ship');
+            $shipImage = !empty($ship['image_full_url']) ? htmlspecialchars($ship['image_full_url']) : "uploads/ships/default_ship.webp";
+            $sourceName = htmlspecialchars($ship['source_name'] ?? 'N/A');
+
+            $teamHTML .= '<h3 class="section-title papyrus-font">Ship</h3>';
+            $teamHTML .= '<ul class="team-list ship-single">';
+            $teamHTML .= '<li class="ship-card card-item">';
+            $teamHTML .= '<div class="ship-image-container image-container">';
+            $teamHTML .= '<img src="' . $shipImage . '" alt="' . $shipName . '" class="ship-image">';
+            $teamHTML .= '</div>';
+            $teamHTML .= '<div class="ship-details item-details">';
+            $teamHTML .= '<p class="item-source">Source: ' . $sourceName . '</p>';
+            $teamHTML .= '</div>';
+            $teamHTML .= '</li>';
+            $teamHTML .= '</ul>';
+        }
+
+        // --- Display Leader Information ---
+        if ($leader) {
+            $teamHTML .= '<h3 class="section-title papyrus-font">Leader</h3>';
+            $teamHTML .= '<ul class="team-list crew-1">';
+            $teamHTML .= self::displayCrewMember($leader);
+            $teamHTML .= '</ul>';
+        }
+
+        // --- Display Regular Crew Information ---
+        if (!empty($regularCrew)) {
+            $teamHTML .= '<h3 class="section-title papyrus-font">Crew</h3>';
+            $crewCount = count($regularCrew);
             $crewClass = '';
-    
+
             if ($crewCount >= 1 && $crewCount <= 3) {
                 $crewClass = ' crew-' . $crewCount;
             } else {
                 $crewClass = ' crew-4';
             }
-    
+
             $teamHTML .= '<ul class="team-list' . $crewClass . '">';
-            foreach ($team as $member) {
-                $teamHTML .= '<li class="team-member">';
-                
-                // Card
-                $teamHTML .= '<div class="member-image-container">';
-                $imagePath = !empty($member['image_url']) ? "uploads/crew/" . htmlspecialchars($member['image_url']) : "uploads/crew/4_Bridgit.webp";
-                $teamHTML .= '<img src="' . $imagePath . '" alt="' . htmlspecialchars($member['crew_name']) . '" class="member-image">';
-                $teamHTML .= '</div>';
-
-                if (isset($member['planet_name'])) {
-                    $teamHTML .= "<span>Planet: " . htmlspecialchars($member['planet_name']) . "</span>";
-                }
-
-                if (isset($member['source_name'])) {
-                    $teamHTML .= "<span>Source: " . htmlspecialchars($member['source_name']) . "</span>";
-                }
-
-                $teamHTML .= '</li>';
+            foreach ($regularCrew as $member) {
+                $teamHTML .= self::displayCrewMember($member); // Re-use method to display
             }
             $teamHTML .= '</ul>';
         } else {
-            $teamHTML .= "<p>No team members selected yet.</p>";
+            $teamHTML .= "<p>No other crew members drafted.</p>";
         }
-        return $teamHTML; //return the team HTML
+        return $teamHTML;
     }
+
+    /**
+     * Helper to display a single crew member card (for reuse)
+     *
+     * @param array $member Crew member data
+     * @return string HTML for crew member card
+     */
+    private static function displayCrewMember($member) {
+        $memberHTML = '<li class="team-member card-item">';
+
+        $memberHTML .= '<div class="member-image-container image-container">';
+        $imageSrc = !empty($member['image_full_url']) ? htmlspecialchars($member['image_full_url']) : "uploads/crew/" . htmlspecialchars($member['image_url'] ?? 'default_crew.webp');
+        $memberHTML .= '<img src="' . $imageSrc . '" alt="' . htmlspecialchars($member['crew_name']) . '" class="member-image">';
+        $memberHTML .= '</div>';
+
+        $memberHTML .= '<div class="member-details item-details">';
+
+        if (isset($member['planet_name']) && !empty($member['planet_name'])) {
+            $memberHTML .= "<p class='item-detail'>Planet: " . htmlspecialchars($member['planet_name']) . "</p>";
+        }
+
+        if (isset($member['source_name']) && !empty($member['source_name'])) {
+            $memberHTML .= "<p class='item-detail'>Source: " . htmlspecialchars($member['source_name']) . "</p>";
+        }
+
+        $memberHTML .= '</div>';
+        $memberHTML .= '</li>';
+        return $memberHTML;
+    }
+
 
     /**
      * Display an error message
@@ -726,14 +890,20 @@ try {
     // Fetch crew data
     $allCrew = $apiClient->fetchCrew($config->targetSourceIds);
 
+    // <-- ADDED: Fetch ship data -->
+    $allShips = [];
+    if ($config->draftShip) { // Only fetch ships if the option is enabled
+        $allShips = $apiClient->fetchShips($config->targetSourceIds);
+    }
+
     // Run the draft
-    $draftManager = new DraftManager($config, $allCrew);
+    $draftManager = new DraftManager($config, $allCrew, $allShips); // <-- MODIFIED: Pass allShips
     $draftManager->runDraft();
 
     // Get and display results
     $teams = $draftManager->getTeams();
-    DraftView::displayResults($teams);  //changed to class method call
+    DraftView::displayResults($teams);
 } catch (Exception $e) {
-    DraftView::displayError($e->getMessage()); //changed to class method call
+    DraftView::displayError($e->getMessage());
 }
 ?>

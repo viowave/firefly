@@ -10,6 +10,39 @@ $color-selected-bg: #f36262;
 $color-note: #777;
 
 // ===================
+// Breakpoints
+// ===================
+$tablet-breakpoint: 700px;
+$desktop-breakpoint: 1024px;
+
+// ===================
+// Media Query Mixin
+// ===================
+@mixin mq($breakpoint) {
+  @if $breakpoint == "tablet" {
+    @media (min-width: $tablet-breakpoint) {
+      @content;
+    }
+  } @else if $breakpoint == "desktop" {
+    @media (min-width: $desktop-breakpoint) {
+      @content;
+    }
+  } @else if $breakpoint == "mobile-only" { // For styles only on mobile
+    @media (max-width: ($tablet-breakpoint - 1px)) {
+      @content;
+    }
+  } @else if $breakpoint == "tablet-only" { // For styles only on tablet
+    @media (min-width: $tablet-breakpoint) and (max-width: ($desktop-breakpoint - 1px)) {
+      @content;
+    }
+  } @else {
+    @media (min-width: $breakpoint) { // Allows for custom pixel values
+      @content;
+    }
+  }
+}
+
+// ===================
 // Base Styles
 // ===================
 
@@ -30,10 +63,10 @@ body {
   display: none;
   max-width: 1440px;
   padding-bottom: 50px;
-  @media (min-width: 700px) {
+  @include mq(tablet) {
     padding: 0 30px 50px;
   }
-  @media (min-width: 1024px) {
+  @include mq(desktop) {
     padding: 0 50px 50px;
   }
   &.visible {
@@ -202,30 +235,6 @@ button {
   color: gray;
 }
 
-.team-list {
-  display: flex;
-  flex-wrap: wrap;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  gap: 10px;
-  margin-bottom: 30px;
-  padding-bottom: 30px;
-  position: relative;
-
-
-  &::after {
-    content: '';
-    position: absolute;
-    left: 50%;
-    bottom: 0; /* Keep it at the bottom of the relative container */
-    width: 75%;  /* Changed the width to 75% */
-    height: 1px;
-    background-color: $color-text;
-    transform: translateX(-50%);
-  }
-}
-
 .team-member {
   text-align: center;
   display: flex;
@@ -237,54 +246,47 @@ button {
   text-align: center;
   display: flex;
   flex-direction: column;
-  flex-basis: calc(25% - 7.5px); /* Default: 4 columns */
+  flex-basis: calc(25% - 7.5px);
+}
+
+.team-wrapper:not(:last-child)::after {
+  content: '';
+  display: block;
+  height: 1px;
+  background-color: $color-text;
+  margin: 32px 0;
 }
 
 .team-list {
   display: flex;
   flex-wrap: wrap;
-  list-style: none;
-  padding: 0;
-  margin: 0 0 30px;
+  justify-content: center;
+  align-items: flex-start;
   gap: 10px;
-  padding-bottom: 40px;
+  list-style: none;
+  padding: 0 0 15px;
+  margin: 10px 0;
   position: relative;
-  border-bottom: none;
-
-  &::after {
-    content: '';
-    position: absolute;
-    left: 50%;
-    bottom: 0;
-    width: 75%;
-    height: 1px;
-    background-color: $color-text;
-    transform: translateX(-50%);
-  }
 
   .team-member {
     text-align: center;
     display: flex;
     flex-direction: column;
-    /* Default for mobile (2 columns) */
     flex-basis: calc(50% - 5px);
   }
 
-  /* 3 Columns at 700px and wider */
-  @media (min-width: 700px) {
+  @include mq(tablet) {
     .team-member {
       flex-basis: calc(33.333% - 6.666px);
     }
   }
 
-  /* 4 Columns at 1024px and wider */
-  @media (min-width: 1024px) {
+  @include mq(desktop) {
     .team-member {
       flex-basis: calc(25% - 7.5px);
     }
   }
 
-  /* Adjust for specific crew counts */
 
   /* 1 Crew Member */
   &.crew-1 .team-member {
@@ -299,26 +301,23 @@ button {
   /* 3 Crew Members */
   &.crew-3 .team-member {
     /* Mobile: 1 column */
-    flex-basis: calc(100% - 10px);
+    flex-basis: calc(50% - 5px);
 
     /* Tablet & Desktop: 3 columns */
-    @media (min-width: 700px) {
+    @include mq(tablet) {
       flex-basis: calc(33.333% - 6.666px);
     }
   }
 
   /* 4 Crew Members */
   &.crew-4 .team-member {
-    /* Mobile: 2 columns */
-    @media (max-width: 699px) {
-      flex-basis: calc(50% - 5px);
-    }
+    flex-basis: calc(50% - 5px);
     /* Tablet: 2 columns */
-    @media (min-width: 700px) and (max-width: 1023px) {
+    @include mq(tablet) {
       flex-basis: calc(33.333% - 6.666px);
     }
     /* Desktop: 4 columns */
-    @media (min-width: 1024px) {
+    @include mq(desktop) {
       flex-basis: calc(25% - 7.5px);
     }
   }
@@ -384,6 +383,70 @@ button {
 }
 
 #loading-overlay .loading-content p {
+  font-size: 32px;
   font-weight: 600;
   color: $color-text;
+}
+
+
+// Styles specifically for the single ship card to ensure it centers nicely
+.team-list.ship-single {
+    justify-content: center;
+    width: 100%;
+}
+
+// If you have specific card styles for .ship-card, ensure they don't prevent centering.
+.ship-card, .team-member {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    min-width: 200px;
+    max-width: 100%;
+}
+
+.image-container {
+    margin-bottom: 10px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.member-image, .ship-image {
+    max-width: 100%;
+    height: auto; // Maintain aspect ratio
+    display: block; // Remove extra space below image
+    object-fit: contain; // Ensures image fits within container without cropping, maintaining aspect ratio
+}
+
+.item-details {
+    padding: 5px;
+    width: 100%;
+}
+
+.item-name {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #c09317;
+}
+
+.item-source, .item-detail {
+    font-size: 0.9em;
+    color: #c09317;
+    margin: 0px 0px 3px;
+}
+
+.section-title {
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    color: #ffd700; // Gold color for titles
+    font-size: 1.8em;
+}
+
+.no-ship-note, .no-leader-note {
+    text-align: center;
+    margin-top: 10px;
+    color: #aaaaaa;
 }
