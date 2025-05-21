@@ -438,7 +438,7 @@ getFormData() {
                 }
 
                 // Delay before fading out the overlay
-                await new Promise(resolve => setTimeout(resolve, 10000));
+                await new Promise(resolve => setTimeout(resolve, 500));
 
                 // Hide the loading overlay by fading it out
                 if (loadingOverlay) {

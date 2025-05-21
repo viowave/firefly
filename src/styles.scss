@@ -214,10 +214,11 @@ button {
       margin-bottom: 10px;
     }
   
-    input {
+    input { 
       flex: 1;
       border-radius: 8px;
       padding: 8px;
+      font-size: 20px;
     }
 }
 
@@ -386,6 +387,9 @@ button {
   font-size: 32px;
   font-weight: 600;
   color: $color-text;
+  @include mq(tablet) {
+    font-size: 58px;
+  }
 }
 
 
