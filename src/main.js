@@ -7,7 +7,7 @@ const CONFIG = {
 };
 
 if (window.APP_ENV === 'production') {
-    CONFIG.API_BASE_URL = 'http://cheatersnever.win/firefly';
+    CONFIG.API_BASE_URL = 'https://cheatersnever.win/firefly';
 } else {
     CONFIG.API_BASE_URL = process.env.API_BASE_URL || 'http://firefly.test';
 }
@@ -63,10 +63,10 @@ class FireflySetup {
                 [1, 2, 3, 4, 5], CONFIG.DEFAULT_PLAYER_COUNT, (value) => this.updatePlayerNameInputs(value)); // Pass callback
 
             this.initToggleGroup(this.elements.crewNeeded, this.inputs.crewNeeded,
-                [1, 2, 3, 4, 5], CONFIG.DEFAULT_CREW_NEEDED);
+                [0, 1, 2, 3, 4, 5, 6], CONFIG.DEFAULT_CREW_NEEDED);
 
             this.initDraftLeaderToggle();
-            this.initDraftShipToggle(); // <-- ADD THIS LINE
+            this.initDraftShipToggle();
             this.form.addEventListener('submit', (event) => this.handleFormSubmit(event)); // Changed event listener
 
         } catch (error) {
@@ -427,6 +427,8 @@ getFormData() {
 
             const resultsHTML = await response.text();
 
+            this.initResultsButtons(formData); // Pass formData to retain it for re-run
+
             // Small delay before displaying results (optional)
             await new Promise(resolve => setTimeout(resolve, 100));
 
@@ -483,6 +485,18 @@ getFormData() {
             if (indicator) {
                 indicator.remove();
             }
+        }
+    }
+
+    initResultsButtons(formData) {
+        const rerunButton = document.getElementById('rerunDraftButton');
+
+        if (rerunButton) {
+            this.lastFormData = formData; // Store the current formData
+
+            rerunButton.addEventListener('click', async () => {
+                await this.reRunDraft();
+            });
         }
     }
 }
