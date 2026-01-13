@@ -488,17 +488,55 @@ getFormData() {
         }
     }
 
+    async reRunDraft() {
+        const resultsContainer = this.elements.resultsContainer;
+        const loadingOverlay = document.getElementById('loading-overlay');
+        
+        if (!this.lastFormData) {
+            this.showError('No previous draft data to rerun.');
+            return;
+        }
+
+        try {
+             if (loadingOverlay) {
+                loadingOverlay.classList.add('active');
+            }
+            this.showLoading('resultsContainer');
+
+            const response = await fetch('run_draft.php', {
+                method: 'POST',
+                body: this.lastFormData,
+                 headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const resultsHTML = await response.text();
+
+            if (resultsContainer) {
+                resultsContainer.innerHTML = resultsHTML;
+                this.initResultsButtons(this.lastFormData); // Re-initialize buttons
+            }
+             if (loadingOverlay) {
+                loadingOverlay.classList.remove('active');
+            }
+
+        } catch (error) {
+            console.error('Error re-running draft:', error);
+            this.showError('Failed to re-run the draft.');
+        } finally {
+            this.hideLoading('resultsContainer');
+        }
+    }
+
     initResultsButtons(formData) {
         const rerunButton = document.getElementById('rerunDraftButton');
 
         if (rerunButton) {
-            this.lastFormData = formData; // Store the current formData
-
-            rerunButton.addEventListener('click', async () => {
-                await this.reRunDraft();
-            });
-        }
-    }
 }
 
 // Initialize when DOM is ready
