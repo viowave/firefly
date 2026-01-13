@@ -1,13 +1,17 @@
 {
   "main.css": {
-    "file": "assets/main-3f82cefa.css",
+    "file": "assets/main-66839010.css",
     "src": "main.css"
   },
   "main.js": {
     "css": [
-      "assets/main-3f82cefa.css"
+      "assets/main-66839010.css"
     ],
+<<<<<<< Updated upstream
     "file": "assets/main-bf7a84ed.js",
+=======
+    "file": "assets/main-8abd2e16.js",
+>>>>>>> Stashed changes
     "isEntry": true,
     "src": "main.js"
   }

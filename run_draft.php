@@ -762,6 +762,7 @@ class DraftView
             $resultsHTML .= '<div class="team-wrapper">';
             $resultsHTML .= self::displayTeam($team);
             $resultsHTML .= '</div>';
+            $resultsHTML .= '<div class="results-actions"><button type="button" id="rerunDraftButton" class="action-button">Re-run Draft</button><button type="button" id="newDraftButton" class="action-button" onclick="window.location.reload();">New Draft</button></div>';
         }
         echo $resultsHTML;
     }

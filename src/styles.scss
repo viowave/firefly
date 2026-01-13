@@ -203,6 +203,10 @@ button {
   @extend %button-base;
 }
 
+#crewNeededButtons button {
+    padding: 12px 21px;
+}
+
 .player-name-input-group {
     display: flex;
     gap: 10px;
@@ -453,4 +457,81 @@ button {
     text-align: center;
     margin-top: 10px;
     color: #aaaaaa;
+}
+
+/* ============================ */
+/* Accordion Styles             */
+/* ============================ */
+
+.accordion-group {
+    border-radius: 8px; // Assuming a standard border-radius, adjust if you have a variable for it
+    margin-bottom: 20px;
+    overflow: hidden;
+
+    // Hide the default marker for <details>
+    &[open] > summary {
+        list-style-type: none;
+    }
+    > summary {
+        list-style-type: none;
+    }
+
+    // Styles for the summary (clickable header)
+    .accordion-summary {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 15px 20px;
+        cursor: pointer;
+        background-color: $color-text; // Using your primary text color for the header background
+        color: $color-bg; // Dark text on a light background for header
+        font-weight: bold;
+        user-select: none;
+
+        // Custom arrow indicator
+        .accordion-icon {
+            display: inline-block;
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 8px solid $color-bg; // Dark arrow for contrast
+            transition: transform 0.3s ease;
+            margin-left: 10px;
+            flex-shrink: 0;
+        }
+
+        // Rotate arrow when accordion is open
+        .accordion-group[open] & .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-title {
+            margin: 0;
+            font-size: 1.3em;
+            color: inherit;
+            flex-grow: 1;
+        }
+    }
+
+    // Styles for the content inside the accordion
+    .accordion-content {
+        padding: 15px 0;
+    }
+
+    &[open] > .accordion-summary ~ * {
+        animation: accordionOpen 0.3s ease-out forwards;
+    }
+}
+
+// Keyframes for a simple slide-down effect
+@keyframes accordionOpen {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

@@ -50,19 +50,30 @@
                 <button type="button" id="draftLeaderButton" class="leader-toggle-button">Draft a Leader</button>
                 <input type="hidden" id="draftLeaderInput" name="draftLeader" value="0">
             </div>
-            <div class="role-button-group">
-                <label>Required Roles</label>
-                <div id="requiredRoles">
+            
+            <details class="accordion-group">
+                <summary class="accordion-summary">
+                    <h3 class="accordion-title">Sources</h3>
+                    <span class="accordion-icon"></span> </summary>
+                <div class="accordion-content source-button-group">
+                    <div>
+                        <button type="button" id="selectAllSources" class="select-all-button">Select All</button>
                     </div>
-            </div>
-            <div class="source-button-group">
-                <label>Sources</label>
-                <div>
-                    <button type="button" id="selectAllSources" class="select-all-button">Select All</button>
+                    <div id="targetSources">
+                    </div>
                 </div>
-                <div id="targetSources">
+            </details>
+
+            <details class="accordion-group">
+                <summary class="accordion-summary">
+                    <h3 class="accordion-title">Required Roles</h3>
+                    <span class="accordion-icon"></span> </summary>
+                <div class="accordion-content role-button-group">
+                    <div id="requiredRoles">
                     </div>
-            </div>
+                </div>
+            </details>
+            
             <div class="submit">
                 <button type="submit">Run Draft</button>
             </div>
