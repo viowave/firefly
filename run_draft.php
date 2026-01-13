@@ -69,7 +69,7 @@ class ApiClient
         $env = getenv('APPLICATION_ENV');
 
         if ($env === 'production') {
-            $this->baseUrl = 'http://cheatersnever.win/firefly/api';
+            $this->baseUrl = 'https://cheatersnever.win/firefly/api';
         } else {
             $this->baseUrl = $baseUrl ?: 'http://firefly.test/api';
         }

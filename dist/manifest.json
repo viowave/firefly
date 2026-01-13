@@ -7,11 +7,7 @@
     "css": [
       "assets/main-66839010.css"
     ],
-<<<<<<< Updated upstream
-    "file": "assets/main-bf7a84ed.js",
-=======
     "file": "assets/main-8abd2e16.js",
->>>>>>> Stashed changes
     "isEntry": true,
     "src": "main.js"
   }
