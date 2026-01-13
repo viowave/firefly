@@ -60,7 +60,7 @@ try {
     $formattedShips = array_map(function ($ship) {
         if (!empty($ship['image_url'])) {
             // Construct full URL using dynamic host and path
-            $ship['image_full_url'] = "uploads/ships/" . $ship['image_url'];
+            $ship['image_full_url'] = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://" . $_SERVER['HTTP_HOST'] . "/uploads/ships/" . $ship['image_url'];
         } else {
             $ship['image_full_url'] = null; // Or a placeholder image URL
         }

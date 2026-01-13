@@ -789,7 +789,7 @@ class DraftView
         // --- Display Ship Information ---
         if ($ship) {
             $shipName = htmlspecialchars($ship['ship_name'] ?? 'Unknown Ship');
-            $shipImage = !empty($ship['image_full_url']) ? htmlspecialchars($ship['image_full_url']) :  "uploads/ships/" . htmlspecialchars($member['image_url'] ?? 'default_ship.webp');
+            $shipImage = !empty($ship['image_full_url']) ? htmlspecialchars($ship['image_full_url']) : "uploads/ships/default_ship.webp";
             $sourceName = htmlspecialchars($ship['source_name'] ?? 'N/A');
 
             $teamHTML .= '<h3 class="section-title papyrus-font">Ship</h3>';
